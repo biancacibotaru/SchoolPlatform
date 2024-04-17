@@ -1,5 +1,6 @@
 using Newtonsoft.Json.Serialization;
 using SchoolPlatformWebApplication.Models.Data;
+using SchoolPlatformWebApplication.Repo;
 
 namespace SchoolPlatformWebApplication
 {
@@ -24,6 +25,7 @@ namespace SchoolPlatformWebApplication
             builder.Services.AddControllers();
 
             builder.Services.AddTransient<DapperDBContext>();
+            builder.Services.AddTransient<IUserRepo, UserRepo>();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
