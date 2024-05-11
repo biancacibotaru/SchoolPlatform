@@ -1,0 +1,22 @@
+.card-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; /* Așeză cardurile pe întreaga lățime a containerului cu spațiu egal între ele */
+}
+.card-bordered {
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 128, 0.2); /* Albastru marin cu 20% opacitate */
+}
+
+.card-inner {
+  background-color: transparent; /* Background interior transparent */
+}
+
+@media screen and (max-width: 600px) {
+  .card-bordered {
+      flex-basis: calc(50% - 20px); /* Pentru ecrane mai mici, afișează doar două carduri pe rând */
+  }
+}

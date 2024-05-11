@@ -1,0 +1,236 @@
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 2rem 3rem;
+    width: 12rem;
+    height: 100vh;
+    transition: 0.5s all;
+    background-color: #fff; /* Fundal alb */
+
+    .logout {
+        button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 19px;
+            color: #275b8f; /* Albastru mai închis */
+            margin: 0 0 0 0.2rem;
+        }
+    }
+
+    .logoContainer {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+
+        img {
+            width: 3rem; /* Ajustați această valoare la dimensiunea dorită */
+            height: auto; /* Pentru a menține proporțiile imaginii */
+            margin-right: 1rem; /* Spațiu între imagine și text */
+        }
+        
+        h2.title {
+            font-size: 31px;
+            color: #275b8f; /* Albastru mai închis */
+            padding: 0 0 0 1rem;
+        }
+    }
+
+    .profileContainer {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 3rem 0 0 0;
+
+        img {
+            width: auto;
+            height: 3rem;
+        }
+
+        .profileContents {
+            padding: 0 0 0 1rem;
+
+            p.name {
+                padding: 0;
+                margin: 0;
+                font-size: 19px;
+                color: #34495e; /* Albastru mai închis */
+                text-transform: capitalize;
+            }
+
+            p {
+                padding: 0;
+                margin: 0;
+                font-size: 15px;
+                color: #34495e; /* Albastru mai închis */
+            }
+        }
+
+    }
+
+    .burgerContainer {
+        content: "";
+        background-color: #2980b9; /* Albastru mai închis */
+        position: absolute;
+        right: (-35px / 2);
+        top: calc(9rem / 1.15);
+        width: 35px;
+        height: 35px;
+        border-radius: 2rem;
+        z-index: 1;
+
+        .burgerTrigger {
+            content: "";
+            width: 35px;
+            height: 35px;
+            background-color: #c0392b; /* Roșu închis - culoare contrastantă pentru buton */
+            cursor: pointer;
+            z-index: 6;
+            opacity: 0;
+            position: relative;
+        }
+
+        .burgerMenu {
+            content: "";
+            background-color: #34495e; /* Albastru mai închis */
+            position: relative;
+            z-index: 1;
+            width: 20px;
+            height: 3px;
+            border-radius: 2rem;
+            bottom: calc(35px / 2);
+            left: 0.45rem;
+            transition: 0.5s all;
+        }
+
+        .burgerMenu::after {
+            content: "";
+            background-color: #fff; /* Alb */
+            position: absolute;
+            width: 20px;
+            height: 3px;
+            border-radius: 2rem;
+            top: 0.4rem;
+            transform: translateY(-0.4rem) rotate(45deg);
+            transition: 0.5s all;
+        }
+
+        .burgerMenu::before {
+            content: "";
+            background-color: #fff; /* Alb */
+            position: absolute;
+            width: 20px;
+            height: 3px;
+            border-radius: 2rem;
+            top: -0.4rem;
+            transform: translateY(0.4rem) rotate(-45deg);
+            transition: 0.5s all;
+        }
+    }
+
+    .burgerContainer::after {
+        content: "";
+        position: absolute;
+        right: 35px;
+        top: (35px / 2);
+        z-index: 0;
+        width: calc(6rem + 15rem);
+        background-color: #ecf0f1; /* Albastru mai închis */
+        height: 2px;
+        transition: 0.5s all;
+    }
+
+    .contentsContainer {
+        margin: 2rem 0 0 0;
+
+        ul {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            flex-direction: column;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            flex-direction: row;
+            margin: 0.75rem 0;
+            padding: 0.75rem 0;
+            width: 100%;
+            border-radius: 1rem;
+            cursor: pointer;
+
+            img {
+                padding: 0 1rem 0 0.5rem;
+            }
+
+            a {
+                text-decoration: none;
+                font-size: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin: 0 0 0 0.5rem;
+            }
+        }
+
+        li.active{
+            background-color: #dfe6e9; /* Albastru mai închis */
+
+            a{
+                color: #275b8f; /* Albastru mai închis */
+            }
+        }
+
+        li:hover {
+            background-color: #bdc3c7; /* Albastru mai închis */
+            transition: 0.25s all;
+        }
+    }
+}
+
+.sidebar.active {
+    width: 3rem;
+    transition: 0.5s all;
+
+    .logoContainer.active {
+        h2.title {
+            opacity: 0;
+        }
+    }
+
+    .burgerContainer.active {
+        transition: 0.5s all;
+        .burgerMenu {
+            background-color: #fff; /* Alb */
+            transition: 0.5s all;
+        }
+
+        .burgerMenu::before {
+            transform: translateY(0rem) rotate(0deg);
+            transition: 0.5s all;
+        }
+
+        .burgerMenu::after {
+            transform: translateY(0rem) rotate(0deg);
+            transition: 0.5s all;
+        }
+    }
+
+    .profileContainer {
+        .profileContents {
+            opacity: 0;
+        }
+    }
+
+    .contentsContainer{
+        a{
+            opacity:0;
+        }
+    }
+}
