@@ -12,10 +12,34 @@ namespace SchoolPlatformWebApplication.Repo
             this.context = context;
         }
 
-        public async Task<List<User>> GetAll()
+        public async Task<List<User>> GetAllStudents()
         {
-            string query = "SELECT * FROM [dbo].[User]";
-            using(var connection = this.context.CreateConnection())
+            string query = "SELECT * FROM [dbo].[User] WHERE Type = 'student'";
+            using (var connection = this.context.CreateConnection())
+            {
+                var userList = await connection.QueryAsync<User>(query);
+                return userList.ToList();
+            }
+        }
+
+        public async Task<List<User>> GetAllTeachers()
+        {
+            string query = "SELECT * FROM [dbo].[User] WHERE Type = 'teacher'";
+            using (var connection = this.context.CreateConnection())
+            {
+                var userList = await connection.QueryAsync<User>(query);
+                return userList.ToList();
+            }
+        }
+
+        public async Task<List<User>> GetAllNonLiders()
+        {
+            string query = "SELECT * FROM [dbo].[User] left outer join [dbo].[UserClass] " +
+                "on [dbo].[User].[Id] = [dbo].[UserClass].[UserId]" +
+                "where [dbo].[UserClass].[ClassId] is null " +
+                "and  [dbo].[User].[Type] = 'teacher'";
+
+            using (var connection = this.context.CreateConnection())
             {
                 var userList = await connection.QueryAsync<User>(query);
                 return userList.ToList();
@@ -28,6 +52,16 @@ namespace SchoolPlatformWebApplication.Repo
             using (var connection = this.context.CreateConnection())
             {
                 var user = await connection.QueryFirstOrDefaultAsync<User>(query, new { Email = email, Password = PasswordHelper.HashPassword(password) });
+                return user;
+            }
+        }
+
+        public async Task<User> GetUserById(int id)
+        {
+            string query = "SELECT * FROM [dbo].[User] WHERE Id = @Id";
+            using (var connection = this.context.CreateConnection())
+            {
+                var user = await connection.QuerySingleOrDefaultAsync<User>(query, new { Id = id });
                 return user;
             }
         }

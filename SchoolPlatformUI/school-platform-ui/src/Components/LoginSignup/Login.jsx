@@ -65,11 +65,11 @@ const Login = () => {
         resetTimer();
     };
 
+    
     const handleSubmit = async () => {
         if (!formData.email || !formData.password) {
             setErrorMessage("Please enter your credentials.");
-        }
-        else {
+        } else {
             try {
                 const { email, password } = formData;
                 const response = await fetch(`http://localhost:5271/api/user/getuserbycredentials`, {
@@ -79,22 +79,60 @@ const Login = () => {
                     },
                     body: JSON.stringify({ email, password })
                 });
-
+    
                 if (response.ok) {
                     const userData = await response.json();
                     console.log(userData);
+                    if (userData.Type === 'student') {
+                        try {
+                            // Faceți cererea GET separată pentru a obține clasa studentului
+                            const classResponse = await fetch(`http://localhost:5271/api/userclass/getstudentclass/${userData.Id}`, {
+                                method: 'GET',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                }
+                            });
+    
+                            if (classResponse.ok) {
+                                const studentClassName = await classResponse.text();
+                                userData.Class = studentClassName;
+                            } else {
+                                // Handle error
+                                console.error('Error fetching student class:', classResponse.statusText);
+                                setErrorMessage("Error fetching student class.");
+                                return;
+                            }
+                        } catch (error) {
+                            console.error('Error fetching student class:', error);
+                            setErrorMessage("Error fetching student class.");
+                            return;
+                        }
+                    }
+                    // Salvați userData în cookie
                     setLoginCookies(userData);
-                    navigate('/student-courses');
+                    // Navigați către pagina corectă în funcție de tipul utilizatorului
+                    if (userData.Type === 'student' && userData.Class) {
+                        navigate('/student-courses');
+                    } else if(userData.Type === 'student' && !userData.Class){
+                        navigate('/student-join-class');
+                    }
+                    else if (userData.Type === 'admin') {
+                        navigate('/admin-classes-list');
+                    }
+                    else if (userData.Type === 'teacher') {
+                        navigate('/teacher-courses-list');
+                    }
                 } else {
                     const errorMessage = await response.text();
                     console.error(errorMessage);
-                    setErrorMessage("Incorrect email or password."); 
+                    setErrorMessage("Incorrect email or password.");
                 }
             } catch (error) {
                 console.error('Auth error:', error);
             }
         }
     };
+     
 
     const handleLogout = () => {
         clearLoginCookies();

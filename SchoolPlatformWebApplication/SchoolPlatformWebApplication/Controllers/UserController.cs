@@ -14,11 +14,39 @@ namespace SchoolPlatformWebApplication.Controllers
             this.repo = repo;
         }
 
-        [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll()
+        [HttpGet("GetAllStudents")]
+        public async Task<IActionResult> GetAllStudents()
         {
-            var userList = await this.repo.GetAll();
+            var userList = await this.repo.GetAllStudents();
             if(userList != null)
+            {
+                return Ok(userList);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpGet("GetAllTeachers")]
+        public async Task<IActionResult> GetAllTeachers()
+        {
+            var userList = await this.repo.GetAllTeachers();
+            if (userList != null)
+            {
+                return Ok(userList);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpGet("GetAllNonLiders")]
+        public async Task<IActionResult> GetAllNonLiders()
+        {
+            var userList = await this.repo.GetAllNonLiders();
+            if (userList != null)
             {
                 return Ok(userList);
             }
@@ -74,6 +102,5 @@ namespace SchoolPlatformWebApplication.Controllers
                 return StatusCode(500, $"User insert error: {ex.Message}");
             }
         }
-
     }
 }

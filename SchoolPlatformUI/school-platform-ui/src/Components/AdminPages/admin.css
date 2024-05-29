@@ -1,0 +1,136 @@
+.admin-page {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .table-container {
+    margin-top: 20px;
+    overflow-x: auto;
+  }
+  
+  table {
+    border-collapse: collapse;
+    margin: 0 auto;
+    width: auto;
+  }
+  
+  .th, td {
+    border: 1px solid #ddd;
+    padding: 8px 35px; /* 8px sus/jos, 12px stânga/dreapta */
+    text-align: left;
+  }
+  
+  
+  th {
+    background-color: #f2f2f2;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  tr:hover {
+    background-color: #ddd;
+  }
+
+  .red-button {
+    background-color: #275b8f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    text-decoration: none;
+  }
+
+  .success-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #4CAF50;
+    color: white;
+    padding: 30px; /* Mărim puțin padding-ul pentru a face popup-ul mai mare */
+    border-radius: 10px; /* Mărim și raza de colțuri */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+  }
+
+  .popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 20px;
+    z-index: 1000;
+  }
+  
+  .close-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: black;
+    cursor: pointer;
+    text-decoration: none; 
+  }
+
+  .close-button:hover {
+    color: red; /* Schimbă culoarea la survol */
+  }  
+  
+  .popup-message {
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  
+  
+  .add-teacher-form-container {
+    position: relative; /* Setăm poziția relativă pentru a permite plasarea absolută a mesajului de eroare */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centrăm elementele în interiorul containerului */
+  }
+  
+  .add-teacher-form-container form {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column; /* Așezăm câmpurile unul sub altul */
+    align-items: center; /* Centrăm câmpurile */
+  }
+  
+  .add-teacher-form-container input{
+    margin: 12px; /* Adăugăm un mic spațiu între câmpuri */
+  }
+
+  .add-teacher-form-container select{
+    margin: 12px 0; /* Adăugăm un mic spațiu între câmpuri */
+  }
+  
+  .error-message {
+    position: absolute;
+    color: rgb(228, 9, 9);
+    font-size: 15px;
+    font-weight: bold;
+    margin-top: -10px;
+  }
+  
+
+  .add-teacher-button {
+    align-self: right;
+    margin-left: 550px;
+    margin-top: 5px;
+    background-color: #007bff;
+    font-size: 15px; 
+    font-weight: bold;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 2px;
+    cursor: pointer; /* Spațiu între ultimul input și buton */
+  }
+  
+  
+  
+  

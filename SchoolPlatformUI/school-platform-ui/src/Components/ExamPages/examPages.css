@@ -1,0 +1,142 @@
+.exam-content-course {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+}
+
+.exam-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.exam-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.exam-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.exam-detail-item {
+    flex: 1 1 30%; /* Allow items to take up 30% of the row width */
+    min-width: 150px;
+    margin-bottom: 10px;
+}
+
+.exam-detail-item label {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+}
+
+.exam-detail-item input, .exam-detail-item textarea {
+    padding: 5px;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.exam-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.exam-submit {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.exam-question-item {
+    margin-bottom: 20px;
+}
+
+.exam-question-item h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.exam-ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.exam-ul li {
+    margin-bottom: 5px;
+}
+
+.exam-new-question {
+    margin-bottom: 20px;
+}
+
+.exam-new-question h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.exam-answer-item {
+    margin-bottom: 10px;
+}
+
+.exam-button {
+    padding: 10px 20px;
+    font-size: 14px;
+    background-color: rgb(47, 148, 47);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.timer {
+    position: fixed;
+    top: 20px; /* Ajustează poziția verticală după preferințele tale */
+    right: 20px; /* Ajustează poziția orizontală după preferințele tale */
+    background-color: #ffffff;
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    z-index: 999; /* Asigură-te că timerul este întotdeauna deasupra altor conținuturi */
+}
+
+.exam-result-content {
+    margin-left: 350px;
+    margin-top: 50px;
+}
+
+.exam-result-ul {
+    padding: 0;
+    list-style-type: none;
+}
+
+.no-bullets {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.exam-result-item label {
+    display: flex;
+    align-items: center;
+}
+
+.correct {
+    color: rgb(3, 100, 3);
+}
+
+.incorrect {
+    color: red;
+}
+
