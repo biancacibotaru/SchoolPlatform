@@ -6,10 +6,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100vh;
-  background: linear-gradient(#e9eef0, #536e78)
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  overflow: hidden; /* Ascunde orice overflow de la conținutul paginii */
+  position: relative; /* Asigură poziționarea relativă pentru div-ul de fundal */
 }

@@ -8,7 +8,7 @@
         public string Description { get; set; }
         public int Duration { get; set; }
         public string StartedOn { get; set; }
-        public string ClosedOn { get; set; }
+        public string State { get; set; }
         public List<QuestionDetails> Questions { get; set; }
     }
 }

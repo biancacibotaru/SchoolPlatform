@@ -130,6 +130,11 @@
     border-radius: 2px;
     cursor: pointer; /* Spațiu între ultimul input și buton */
   }
+
+  .title{
+    font-size: 2.5rem;
+    color: #ffff;
+  }
   
   
   

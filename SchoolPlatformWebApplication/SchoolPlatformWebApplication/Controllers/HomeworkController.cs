@@ -40,6 +40,10 @@ namespace SchoolPlatformWebApplication.Controllers
                         newFile.Scope = "Homework requirement";
                         homework.FileContentId = await this.fileRepo.InsertFileContent(newFile);
                     }
+                    else
+                    {
+                        homework.FileContentId = null;
+                    }
 
                     var response = await this.repo.InsertHomework(homework);
 
@@ -52,19 +56,19 @@ namespace SchoolPlatformWebApplication.Controllers
             }
         }
 
-        //[HttpGet("GetAllSubjectsByClass/{classId}")]
-        //public async Task<IActionResult> GetAllSubjectsByClass(int classId)
-        //{
-        //    var subjectList = await this.repo.GetAllSubjectsByClass(classId);
-        //    if (subjectList != null)
-        //    {
-        //        return Ok(subjectList);
-        //    }
-        //    else
-        //    {
-        //        return NotFound();
-        //    }
-        //}
+        [HttpGet("GetHomeworksBySubject/{id}")]
+        public async Task<IActionResult> GetHomeworksBySubject(int id)
+        {
+            var homeworkList = await this.repo.GetHomeworksBySubject(id);
+            if (homeworkList != null)
+            {
+                return Ok(homeworkList);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
     }
 }
 

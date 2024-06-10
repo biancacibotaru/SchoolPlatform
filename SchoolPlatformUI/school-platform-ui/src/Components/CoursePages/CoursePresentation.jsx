@@ -52,7 +52,7 @@ const CoursePresentation = () => {
 
     return (
         <div className="content-course">
-            <h1>Course Materials</h1>
+            <h1 className="title">Course Materials</h1>
             {Object.keys(groupedMaterials).map((date, index) => (
                 <div key={date} className="material-group">
                     <h2 className="material-date">{date}</h2>
@@ -66,7 +66,7 @@ const CoursePresentation = () => {
                                 <p className="material-description">{material.Description}</p>
                                 {material.FileName && (
                                     <a href={fileUrl} download={material.FileName} className="material-download">
-                                      📃 {material.FileName}
+                                       {material.FileName}
                                     </a>
                                 )}
                                 {/* Adăugarea unei linii orizontale între materiale, cu excepția ultimului material din grup */}

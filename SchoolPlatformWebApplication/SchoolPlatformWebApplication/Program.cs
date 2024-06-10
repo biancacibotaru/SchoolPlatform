@@ -34,6 +34,7 @@ namespace SchoolPlatformWebApplication
             builder.Services.AddTransient<IStudyMaterialRepo, StudyMaterialRepo>();
             builder.Services.AddTransient<IExamRepo, ExamRepo>();
             builder.Services.AddTransient<IHomeworkRepo, HomeworkRepo>();
+            builder.Services.AddTransient<IGradeRepo, GradeRepo>();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

@@ -16,6 +16,20 @@ namespace SchoolPlatformWebApplication.Controllers
             this.classRepo = classRepo;
         }
 
+        [HttpGet("GetAllSubjectsByClass/{classId}")]
+        public async Task<IActionResult> GetAllSubjectsByClass(int classId)
+        {
+            var subjectList = await this.repo.GetAllSubjectsByClass(classId);
+            if (subjectList != null)
+            {
+                return Ok(subjectList);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
         [HttpPost("InsertSubject")]
         public async Task<IActionResult> InsertSubject(Dictionary<string, string> newSubject)
         {
@@ -40,20 +54,6 @@ namespace SchoolPlatformWebApplication.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, $"Subject insert error: {ex.Message}");
-            }
-        }
-
-        [HttpGet("GetAllSubjectsByClass/{classId}")]
-        public async Task<IActionResult> GetAllSubjectsByClass(int classId)
-        {
-          var subjectList = await this.repo.GetAllSubjectsByClass(classId);
-            if (subjectList != null)
-            {
-                return Ok(subjectList);
-            }
-            else
-            {
-                return NotFound();
             }
         }
 

@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './examPages.css';
 import Cookies from 'js-cookie';
 
 const ViewExamForStudent = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const queryParams = new URLSearchParams(location.search);
     const examId = queryParams.get('id');
+    const subjectId = queryParams.get('subjectId');
 
     const [examDetails, setExamDetails] = useState({
         Title: '',
         Description: '',
         Duration: '',
-        StartedOn: '',
-        ClosedOn: ''
+        StartedOn: ''
     });
 
     const [questions, setQuestions] = useState([]);
@@ -30,30 +31,13 @@ const ViewExamForStudent = () => {
                     Title: data.Title,
                     Description: data.Description,
                     Duration: data.Duration,
-                    StartedOn: new Date(),
+                    StartedOn: data.StartedOn,
                     ClosedOn: data.ClosedOn
                 });
                 setQuestions(data.Questions);
 
-                const durationInSeconds = data.Duration * 60;
-                const startTime = new Date().getTime();
-                const endTime = startTime + durationInSeconds * 1000;
                 const interval = setInterval(() => {
-                    const now = new Date().getTime();
-                    const timeDifference = endTime - now;
-                    if (timeDifference > 0) {
-                        const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
-                        const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
-                        setTimeLeft(`${minutes}m ${seconds}s`);
-
-                        const timeSpentOnOtherTabs = (now - startTime) / 1000;
-                        if (document.visibilityState === 'hidden' && timeSpentOnOtherTabs > 10) {
-                            setWarningMessage('You spent an extended period of time away from this exam. Please refrain from using other tabs/windows.');
-                        }
-                    } else {
-                        clearInterval(interval);
-                        setTimeLeft('Time\'s up!');
-                    }
+                    calculateTimeLeft(data.StartedOn, data.Duration);
                 }, 1000);
 
                 return () => clearInterval(interval);
@@ -65,13 +49,31 @@ const ViewExamForStudent = () => {
         fetchExam();
     }, [examId]);
 
+    const calculateTimeLeft = (startedOn, duration) => {
+        const now = new Date();
+        const startTime = new Date(startedOn);
+        const endTime = new Date(startTime.getTime() + duration * 60000);
+
+        const difference = endTime - now;
+
+        if (difference > 0) {
+            const minutes = Math.floor((difference / 1000) / 60);
+            const seconds = Math.floor((difference / 1000) % 60);
+            setTimeLeft(`${minutes}m ${seconds}s`);
+        } else {
+            setTimeLeft('Time\'s up!');
+            alert('Time is up! You will be redirected.');
+            navigate(`/course-exams?id=${subjectId}`);  // Redirect to the course page
+        }
+    };
+
     const [studentAnswers, setStudentAnswers] = useState({});
 
     const handleAnswerChange = (questionIndex, answerText, isChecked) => {
         const userDataFromCookie = Cookies.get('loggedIn');
         if (userDataFromCookie) {
-          const userData = JSON.parse(userDataFromCookie);
-          setUserId(userData.Id);
+            const userData = JSON.parse(userDataFromCookie);
+            setUserId(userData.Id);
         }
 
         setStudentAnswers(prevState => {
@@ -120,6 +122,9 @@ const ViewExamForStudent = () => {
             }
 
             alert('Exam submitted successfully!');
+            setTimeout(() => {
+                navigate(`/course-exams?id=${subjectId}`);  // Redirect to the course page after submission
+            }, 1000); // Adjust the delay as needed
         } catch (error) {
             console.error('Error submitting exam:', error);
         }
@@ -127,18 +132,18 @@ const ViewExamForStudent = () => {
 
     return (
         <div className="exam-content-course">
-            <div className="timer">{timeLeft}</div> {/* Timer element with fixed position */}
-            {warningMessage && <div className="warning-message">{warningMessage}</div>} {/* Warning message for suspicious behavior */}
-            <h1>{examDetails.Title}</h1>
-            <p>{examDetails.Description}</p>
-            <p>Duration: {examDetails.Duration} minutes</p>
+            <div className="timer">{timeLeft}</div>
+            {warningMessage && <div className="warning-message">{warningMessage}</div>}
+            <h1 className="title">{examDetails.Title}</h1>
+            <p className="exam-details-student">{examDetails.Description}</p>
+            <p className="exam-details-student">Duration: {examDetails.Duration} minutes</p>
             <form onSubmit={handleSubmit} className="exam-form">
                 {questions.map((question, qIndex) => (
-                    <div key={qIndex} className="exam-question-item">
-                        <h2>Question {qIndex + 1}</h2>
-                        <p>{question.Text}</p>
-                        <p>Points: {question.Points}</p>
-                        <ul className="exam-ul">
+                    <div key={qIndex} className="exam-question-item-student">
+                        <h2>➡️ Question {qIndex + 1}</h2>
+                        <p className="question-align">{question.Text}</p>
+                        <p className="question-align">Points: {question.Points}</p>
+                        <ul className="exam-ul question-align">
                             {question.Answers.map((answer, aIndex) => (
                                 <li key={aIndex}>
                                     <label>

@@ -32,7 +32,7 @@ namespace SchoolPlatformWebApplication.Repo
 
         public async Task<List<Object>> GetAllMaterialsForSubject(int id)
         {
-            string query = "SELECT [Title], [Description], [CreatedOn], [FileName], [Content] AS FileContent FROM [dbo].[StudyMaterial] Inner join [dbo].[FileContent] on [dbo].[StudyMaterial].[FileContentId] = [dbo].[FileContent].[Id] where [SubjectId] = @SubjectId";
+            string query = "SELECT [Title], [Description], [CreatedOn], [FileName], [Content] AS FileContent FROM [dbo].[StudyMaterial] Inner join [dbo].[FileContent] on [dbo].[StudyMaterial].[FileContentId] = [dbo].[FileContent].[Id] where [SubjectId] = @SubjectId order by [dbo].[StudyMaterial].[Id] desc";
 
             using (var connection = this.context.CreateConnection())
             {

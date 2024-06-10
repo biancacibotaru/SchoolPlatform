@@ -15,11 +15,32 @@ namespace SchoolPlatformWebApplication.Repo
             this.context = context;
         }
 
+        public async Task<List<StudentAnswer>> GetStudentExam(int examId, int studentId)
+        {
+            string query = @"SELECT q.Id AS QuestionId, sa.Answers AS Answers, sa.PointsPerQuestion as PointsPerQuestion 
+                FROM Question q JOIN StudentAnswer sa ON sa.QuestionId = q.Id   
+                JOIN StudentExam se ON se.Id = sa.StudentExamId 
+                WHERE se.ExamId = @ExamId AND se.StudentId = @StudentId";
+
+            using (var connection = this.context.CreateConnection())
+            {
+                var parameters = new
+                {
+                    ExamId = examId,
+                    StudentId = studentId
+                };
+
+                var examResult = await connection.QueryAsync<StudentAnswer>(query, parameters);
+
+                return examResult.ToList();
+            }
+        }
+
         public async Task<int> InsertExam(Exam exam)
         {
             int examId = 0;
 
-            string query = "INSERT INTO [dbo].[Exam] ([SubjectId], [Title], [Description], [Duration], [StartedOn], [ClosedOn]) OUTPUT INSERTED.Id VALUES (@SubjectId, @Title, @Description, @Duration, @StartedOn, @ClosedOn)";
+            string query = "INSERT INTO [dbo].[Exam] ([SubjectId], [Title], [Description], [Duration], [StartedOn], [State]) OUTPUT INSERTED.Id VALUES (@SubjectId, @Title, @Description, @Duration, @StartedOn, @State)";
             using (var connection = this.context.CreateConnection())
             {
                 var parameters = new
@@ -29,7 +50,7 @@ namespace SchoolPlatformWebApplication.Repo
                     Description = exam.Description,
                     Duration = exam.Duration,
                     StartedOn = exam.StartedOn,
-                    ClosedOn = exam.ClosedOn
+                    State = exam.State
                 };
 
                 examId = await connection.ExecuteScalarAsync<int>(query, parameters);
@@ -61,6 +82,96 @@ namespace SchoolPlatformWebApplication.Repo
             return examId;
         }
 
+        public async Task<int> UpdateExam(Exam exam)
+        {
+            int rowsAffected = 0;
+
+            string updateExamQuery = @"
+        UPDATE [dbo].[Exam]
+        SET 
+            [SubjectId] = @SubjectId, 
+            [Title] = @Title, 
+            [Description] = @Description, 
+            [Duration] = @Duration, 
+            [StartedOn] = @StartedOn, 
+            [State] = @State
+        WHERE [Id] = @Id";
+
+            using (var connection = this.context.CreateConnection())
+            {
+                var examParameters = new
+                {
+                    Id = exam.Id,
+                    SubjectId = exam.SubjectId,
+                    Title = exam.Title,
+                    Description = exam.Description,
+                    Duration = exam.Duration,
+                    StartedOn = exam.StartedOn,
+                    State = exam.State
+                };
+
+                rowsAffected = await connection.ExecuteAsync(updateExamQuery, examParameters);
+            }
+
+            if (rowsAffected > 0)
+            {
+                var questions = exam.Questions;
+
+                foreach (var question in questions)
+                {
+                    var existingQuestion = await GetQuestionByIdAndExam(question.Id, exam.Id);
+
+                    if (existingQuestion == null)
+                    {
+                        // Insert new question
+                        string insertQuestionQuery = @"
+                    INSERT INTO [dbo].[Question] ([ExamId], [Text], [Points], [Answers])
+                    VALUES (@ExamId, @Text, @Points, @Answers)";
+
+                        using (var connection = this.context.CreateConnection())
+                        {
+                            var insertParameters = new
+                            {
+                                ExamId = exam.Id,
+                                Text = question.Text,
+                                Points = question.Points,
+                                Answers = JsonSerializer.Serialize(question.Answers)
+                            };
+
+                            await connection.ExecuteAsync(insertQuestionQuery, insertParameters);
+                        }
+                    }
+                    else
+                    {
+                        // Update existing question
+                        string updateQuestionQuery = @"
+                    UPDATE [dbo].[Question]
+                    SET 
+                        [Text] = @Text, 
+                        [Points] = @Points, 
+                        [Answers] = @Answers
+                    WHERE [ExamId] = @ExamId AND [Id] = @QuestionId";
+
+                        using (var connection = this.context.CreateConnection())
+                        {
+                            var updateParameters = new
+                            {
+                                ExamId = exam.Id,
+                                QuestionId = question.Id,
+                                Text = question.Text,
+                                Points = question.Points,
+                                Answers = JsonSerializer.Serialize(question.Answers)
+                            };
+
+                            await connection.ExecuteAsync(updateQuestionQuery, updateParameters);
+                        }
+                    }
+                }
+            }
+
+            return rowsAffected;
+        }
+
         public async Task<List<Exam>> GetAllExamsBySubject(int subjectId)
         {
             string query = "SELECT * FROM [dbo].[Exam] where [SubjectId] = @SubjectId";
@@ -76,9 +187,25 @@ namespace SchoolPlatformWebApplication.Repo
             }
         }
 
+        public async Task<List<Exam>> GetAllExamsBySubjectForStudent(int subjectId)
+        {
+            string query = "SELECT * FROM [dbo].[Exam] where [SubjectId] = @SubjectId and [State] = @State";
+
+            using (var connection = this.context.CreateConnection())
+            {
+                var parameters = new
+                {
+                    SubjectId = subjectId,
+                    State = "published"
+                };
+                var response = await connection.QueryAsync<Exam>(query, parameters);
+                return response.ToList();
+            }
+        }
+
         public async Task<Exam> GetExam(int id)
         {
-            string query = "SELECT [Id], [SubjectId], [Title], [Description], [Duration], [StartedOn], [ClosedOn] FROM [dbo].[Exam] WHERE [dbo].[Exam].[Id] = @ExamId";
+            string query = "SELECT [Id], [SubjectId], [Title], [Description], [Duration], [StartedOn], [State] FROM [dbo].[Exam] WHERE [dbo].[Exam].[Id] = @ExamId";
             using (var connection = this.context.CreateConnection())
             {
                 var parameters = new { ExamId = id };
@@ -171,9 +298,25 @@ namespace SchoolPlatformWebApplication.Repo
             }
         }
 
-        public async Task<List<StudentAnswer>> GetStudentExam(int examId, int studentId)
+        public async Task<Question> GetQuestionByIdAndExam(int questionId, int examId)
         {
-            string query = @"SELECT q.Id AS QuestionId, sa.Answers AS Answers, sa.PointsPerQuestion as PointsPerQuestion FROM Question q JOIN StudentAnswer sa ON sa.QuestionId = q.Id JOIN StudentExam se ON se.Id = sa.StudentExamId WHERE se.ExamId = @ExamId AND se.StudentId = @StudentId";
+            string query = "SELECT * FROM [Question] WHERE Id = @QuestionId and ExamId = @ExamId";
+            using (var connection = this.context.CreateConnection())
+            {
+                var parameters = new
+                {
+                    QuestionId = questionId,
+                    ExamId= examId
+                };
+
+                var response = await connection.QueryFirstOrDefaultAsync<Question>(query, parameters);
+                return response;
+            }
+        }
+
+        public async Task<StudentExam> GetStudentExamStatus(int examId, int studentId)
+        {
+            string query = @"SELECT [StudentId],[ExamId],[TotalPoints],[StartedOn],[FinishedOn],[Status] FROM [StudentExam] WHERE [ExamId] = @ExamId AND [StudentId] = @StudentId";
             using (var connection = this.context.CreateConnection())
             {
                 var parameters = new
@@ -182,11 +325,11 @@ namespace SchoolPlatformWebApplication.Repo
                     StudentId = studentId
                 };
 
-                var examResult = await connection.QueryAsync<StudentAnswer>(query, parameters);
+                var examResult = await connection.QueryFirstOrDefaultAsync<StudentExam>(query, parameters);
 
-                return examResult.ToList();
+                return examResult;
             }
-        } 
+        }
 
         public async Task<List<AnswersAndStudentAnswers>> GetStudentExamResults(int examId, int studentId)
         {
@@ -194,7 +337,7 @@ namespace SchoolPlatformWebApplication.Repo
             var studentQuestions = await this.GetStudentExam(examId, studentId);
             List<AnswersAndStudentAnswers> result = new List<AnswersAndStudentAnswers>();
 
-            foreach(var question in questions)
+            foreach (var question in questions)
             {
                 var correctAnswers = question.Answers.Where(a => a.IsCorrect).Select(a => a.Text).ToList();
                 var studentAnswers = studentQuestions.Where(s => s.QuestionId == question.Id).FirstOrDefault().Answers.Split(',').ToList();

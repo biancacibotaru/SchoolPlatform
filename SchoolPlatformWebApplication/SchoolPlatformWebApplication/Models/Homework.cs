@@ -8,6 +8,6 @@
         public string StartDate { get; set; }
         public string Deadline { get; set; }
         public int SubjectId { get; set; }
-        public int FileContentId { get; set; }
+        public int? FileContentId { get; set; }
     }
 }

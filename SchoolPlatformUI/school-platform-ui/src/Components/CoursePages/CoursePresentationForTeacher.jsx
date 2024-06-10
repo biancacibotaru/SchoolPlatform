@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import './coursePages.css';
 
 const CoursePresentationForTeacher = () => {
@@ -11,14 +11,14 @@ const CoursePresentationForTeacher = () => {
     const [materials, setMaterials] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [modal, setModal] = useState(false);
+    const [isAddingNewMaterial, setIsAddingNewMaterial] = useState(false);
     const [newMaterial, setNewMaterial] = useState({
         title: '',
         description: '',
         file: null
     });
 
-    const toggleModal = () => setModal(!modal);
+    const toggleNewMaterialForm = () => setIsAddingNewMaterial(!isAddingNewMaterial);
 
     useEffect(() => {
         const fetchMaterials = async () => {
@@ -59,16 +59,14 @@ const CoursePresentationForTeacher = () => {
         formData.append('SubjectId', id);
 
         try {
-            const response = await fetch('http://localhost:5271/api/StudyMaterial/AddStudyMaterial', {
+            const response = await fetch('http://localhost:5271/api/StudyMaterial/InsertStudyMaterial', {
                 method: 'POST',
                 body: formData
             });
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            const newMaterialData = await response.json();
-            setMaterials([...materials, newMaterialData]);
-            toggleModal(); // Close the modal after successful submission
+            window.location.href = window.location.href;
         } catch (error) {
             console.error('Error adding new material:', error);
         }
@@ -94,11 +92,10 @@ const CoursePresentationForTeacher = () => {
 
     return (
         <div className="content-course">
-            <h1>Course Materials</h1>
-            <Button color="primary" onClick={toggleModal}>Add New Material</Button>
-            <Modal isOpen={modal} toggle={toggleModal} className="custom-modal">
-                <ModalHeader toggle={toggleModal} className="custom-modal-header">Add New Material</ModalHeader>
-                <ModalBody className="custom-modal-body">
+            <h1 className="title">Course Materials</h1>
+            <Button className="new-material-button" onClick={toggleNewMaterialForm}>+ New Material</Button>
+            {isAddingNewMaterial && (
+                <div className="new-material-form">
                     <Form onSubmit={handleFormSubmit}>
                         <FormGroup>
                             <Label for="title">Title</Label>
@@ -114,11 +111,8 @@ const CoursePresentationForTeacher = () => {
                         </FormGroup>
                         <Button type="submit" color="primary">Submit</Button>
                     </Form>
-                </ModalBody>
-                <ModalFooter>
-                    <Button color="secondary" onClick={toggleModal}>Cancel</Button>
-                </ModalFooter>
-            </Modal>
+                </div>
+            )}
             {Object.keys(groupedMaterials).map((date, index) => (
                 <div key={date} className="material-group">
                     <h2 className="material-date">{date}</h2>
@@ -132,7 +126,7 @@ const CoursePresentationForTeacher = () => {
                                 <p className="material-description">{material.Description}</p>
                                 {material.FileName && (
                                     <a href={fileUrl} download={material.FileName} className="material-download">
-                                      📃 {material.FileName}
+                                       {material.FileName}
                                     </a>
                                 )}
                                 {/* Adăugarea unei linii orizontale între materiale, cu excepția ultimului material din grup */}

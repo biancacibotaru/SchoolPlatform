@@ -70,7 +70,7 @@ const ClassesListPage = () => {
 
   return (
     <div className="admin-page">
-      <h1>All Classes</h1>
+      <h1 className='title'>All Classrooms</h1>
       <div className="table-container">
         <table>
           <thead>

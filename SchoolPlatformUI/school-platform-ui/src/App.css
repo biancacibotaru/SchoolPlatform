@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  
 }
 
 .App-logo {
@@ -36,3 +36,31 @@
     transform: rotate(360deg);
   }
 }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: auto;
+}
+
+.background {
+  position: fixed; /* Fundalul rămâne fixat în timpul scroll-ului */
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image: url('background.png'); /* Imaginea de fundal */
+  background-size: cover; /* Acoperă întreaga suprafață */
+  background-attachment: fixed; /* Fundalul rămâne fixat în timpul scroll-ului */
+  filter: blur(5px); /* Aplică efectul de blur */
+  z-index: -1; /* Fundalul se află sub conținutul paginii */
+}
+
+.content {
+  position: relative; /* Asigură-te că conținutul se suprapune peste fundal */
+  z-index: 1; /* Conținutul se află deasupra fundalului */
+  padding: 20px; /* Margini pentru conținut */
+  min-height: 100vh; /* Asigură că conținutul ocupă cel puțin înălțimea ecranului */
+}
+
+

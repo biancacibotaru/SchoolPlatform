@@ -50,51 +50,43 @@ const ViewExamResultForStudent = () => {
         }
     };
 
-    const totalPoints = userResponses.reduce((total, response) => total + (response.StudentPoints || 0), 0);
+    const totalPoints = userResponses.reduce((total, response) => total + (response.StudentPoints || 0), 0) + 1;
 
     return (
         <div className="exam-result-content">
-            <h1>Exam Results</h1>
-            <h2>Total points: {totalPoints}</h2>
+            <h1 className="title">Exam Results</h1>
+            <h2 className='total-points'>Grade: {totalPoints}</h2>
+            <div className='colors-legend'>
+                <h4>Legend: <span className="correct">Correct </span><span className="incorrect"> Incorrect </span><span className="missed"> Missed </span></h4>
+            </div>
+
             {examDetails.Questions ? (
                 <ul className="exam-result-ul">
-                    {(() => {
-                        const items = [];
-                        for (let i = 0; i < examDetails.Questions.length; i++) {
-                            const question = examDetails.Questions[i];
-                            const totalPoints = question.Points;
-                            const userQuestion = userResponses.find(q => q.QuestionId === question.Id);
-                            const studentPoints = userQuestion ? userQuestion.StudentPoints : null;
-                            const pointsText = studentPoints !== null ? `(${studentPoints}/${totalPoints} points)` : '';
-                            items.push(
-                                <li key={i} className="exam-result-item">
-                                    <h2>{`Question ${i + 1} ${pointsText}`}</h2>
-                                    <p>{question.Text}</p>
-                                    <ul className="no-bullets">
-                                        {(() => {
-                                            const answerItems = [];
-                                            for (let j = 0; j < question.Answers.length; j++) {
-                                                const answer = question.Answers[j];
-                                                answerItems.push(
-                                                    <li key={j} className={getAnswerClass(question.Id, answer.Text)}>
-                                                        <label>
-                                                            <input
-                                                                type="checkbox"
-                                                                readOnly
-                                                                checked={userQuestion && userQuestion.StudentAnswers.includes(answer.Text)}
-                                                            /> {answer.Text}
-                                                        </label>
-                                                    </li>
-                                                );
-                                            }
-                                            return answerItems;
-                                        })()}
-                                    </ul>
-                                </li>
-                            );
-                        }
-                        return items;
-                    })()}
+                    {examDetails.Questions.map((question, index) => {
+                        const totalPoints = question.Points;
+                        const userQuestion = userResponses.find(q => q.QuestionId === question.Id);
+                        const studentPoints = userQuestion ? userQuestion.StudentPoints : null;
+                        const pointsText = studentPoints !== null ? `(${studentPoints}/${totalPoints} points)` : '';
+                        return (
+                            <li key={index} className="exam-question-item-student">
+                                <h2>➡️ {`Question ${index + 1} ${pointsText}`}</h2>
+                                <p className="question-align">{question.Text}</p>
+                                <ul className="no-bullets">
+                                    {question.Answers.map((answer, j) => (
+                                        <li key={j} className={getAnswerClass(question.Id, answer.Text)}>
+                                            <label className="question-align">
+                                                <input
+                                                    type="checkbox"
+                                                    readOnly
+                                                    checked={userQuestion && userQuestion.StudentAnswers.includes(answer.Text)}
+                                                /> {answer.Text}
+                                            </label>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </li>
+                        );
+                    })}
                 </ul>
             ) : (
                 <p>Loading exam details...</p>

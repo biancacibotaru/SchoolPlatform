@@ -15,17 +15,41 @@ namespace SchoolPlatformWebApplication.Controllers
             this.repo = repo;
         }
 
+        [HttpGet("GetStudentExam/{examId}")]
+        public async Task<IActionResult> GetStudentResults(int examId, [FromQuery] int studentId)
+        {
+            try
+            {
+                var result = await this.repo.GetStudentExamResults(examId, studentId);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Get exam error: {ex.Message}");
+            }
+        }
+
         [HttpPost("InsertExam")]
         public async Task<IActionResult> InsertExam([FromBody] Exam exam)
         {
             try
             {
+                int id;
+
                 if (exam == null)
                 {
                     return BadRequest("Exam data cannot be null!");
                 }
 
-                int id = await this.repo.InsertExam(exam);
+                if (exam.Id == 0)
+                {
+                    id = await this.repo.InsertExam(exam);
+                }
+                else
+                {
+                    id = await this.repo.UpdateExam(exam);
+                }
 
                 return Ok(id);
             }
@@ -39,6 +63,20 @@ namespace SchoolPlatformWebApplication.Controllers
         public async Task<IActionResult> GetAllExamsBySubject(int id)
         {
             var examList = await this.repo.GetAllExamsBySubject(id);
+            if (examList != null)
+            {
+                return Ok(examList);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpGet("GetAllExamsBySubjectForStudent/{id}")]
+        public async Task<IActionResult> GetAllExamsBySubjectForStudent(int id)
+        {
+            var examList = await this.repo.GetAllExamsBySubjectForStudent(id);
             if (examList != null)
             {
                 return Ok(examList);
@@ -70,6 +108,21 @@ namespace SchoolPlatformWebApplication.Controllers
             try
             {
                 var result = await this.repo.GetStudentExamResults(examId, studentId);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Get exam error: {ex.Message}");
+            }
+        }
+
+        [HttpGet("GetStudentExamStatus/{examId}")]
+        public async Task<IActionResult> GetStudentExamStatus(int examId, [FromQuery] int studentId)
+        {
+            try
+            {
+                var result = await this.repo.GetStudentExamStatus(examId, studentId);
 
                 return Ok(result);
             }
@@ -115,7 +168,7 @@ namespace SchoolPlatformWebApplication.Controllers
                 await repo.InsertStudentAnswer(studentAnswer);
             }
 
-            await repo.SetTotalPoints(studentExam, totalPoints);
+            await repo.SetTotalPoints(studentExam, totalPoints + 1);
 
             return Ok("Exam submitted successfully!");
         }
@@ -131,9 +184,8 @@ namespace SchoolPlatformWebApplication.Controllers
 
             var correctSelected = studentAnswers.Intersect(correctAnswers).Count();
             var incorrectSelected = studentAnswers.Except(correctAnswers).Count();
-            var incorrectUnselected = correctAnswers.Except(studentAnswers).Count();
 
-            var pointsResult = Math.Max(0, correctSelected * pointsPerCorrectAnswer - incorrectSelected * pointsPerCorrectAnswer - incorrectUnselected * pointsPerCorrectAnswer);
+            var pointsResult = Math.Max(0, correctSelected * pointsPerCorrectAnswer - incorrectSelected * pointsPerCorrectAnswer);
 
             return pointsResult;
         }

@@ -43,7 +43,7 @@ const CourseExamsForTeacher = () => {
 
     return (
         <div className="content-course">
-            <h1>Course Exams</h1>
+            <h1 className="title">Course Exams</h1>
             <Link to={`/configure-exam?subjectId=${id}`} className="add-exam-button">
                 + Add New Exam
             </Link>
@@ -54,8 +54,8 @@ const CourseExamsForTeacher = () => {
                         <th>Description</th>
                         <th>Duration</th>
                         <th>Started on</th>
-                        <th>Closed on</th>
-                        <th>Actions</th>
+                        <th>State</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -65,11 +65,15 @@ const CourseExamsForTeacher = () => {
                             <td>{exam.Description}</td>
                             <td>{exam.Duration}</td>
                             <td>{exam.StartedOn}</td>
-                            <td>{exam.ClosedOn}</td>
+                            <td>{exam.State}</td>
                             <td>
-                                <Link to={`/configure-exam?id=${exam.Id}`} style={{ textDecoration: 'none' }}>
-                                    Questions
-                                </Link>
+                                {exam.State == 'draft' ? 
+                                <Link to={`/configure-exam?id=${exam.Id}&subjectId=${id}`} style={{ textDecoration: 'none' }}>
+                                    Edit
+                                </Link> :  
+                                <Link to={`/view-exam-for-teacher?id=${exam.Id}&subjectId=${id}`} style={{ textDecoration: 'none' }}>
+                                    View exam
+                                </Link>}
                             </td>
                         </tr>
                     ))}

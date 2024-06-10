@@ -24,21 +24,31 @@
 }
 
 .exam-detail-item {
-    flex: 1 1 30%; /* Allow items to take up 30% of the row width */
     min-width: 150px;
     margin-bottom: 10px;
 }
 
 .exam-detail-item label {
-    display: flex;
-    flex-direction: column;
     font-weight: bold;
+    margin-right: 20px;
+    color:#ffffff;
 }
 
 .exam-detail-item input, .exam-detail-item textarea {
     padding: 5px;
     font-size: 14px;
     margin-top: 5px;
+    margin-left: 5px;
+}
+
+.exam-detail-item-text{
+    width: 680px;
+}
+
+.exam-details-student {
+    font-weight: bold;
+    margin-right: 20px;
+    color: #bcbcbc;
 }
 
 .exam-buttons {
@@ -47,28 +57,50 @@
     margin-bottom: 20px;
 }
 
+.align-points{
+    margin-left: 20px;
+}
+
+.question-align{
+    margin-left: 40px;
+}
+
 .exam-submit {
     padding: 10px 20px;
     font-size: 16px;
-    background-color: #007bff;
-    color: white;
+    background: linear-gradient(135deg, #ffffff, #6a9ca4); /* gradient alb-albastru */
+    color: rgb(0, 0, 0);
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-weight: bold;
+    margin-right: 15px;
+}
+
+.exam-submit:hover{
+    background: linear-gradient(135deg, #6a9ca4, #ffffff); /* gradient alb-albastru */
 }
 
 .exam-question-item {
     margin-bottom: 20px;
+    position: relative;
+}
+
+.exam-question-item-student {
+    margin-bottom: 20px;
+    color: #ffff;
 }
 
 .exam-question-item h2 {
     font-size: 18px;
     margin-bottom: 10px;
+    margin-right: 5px;
 }
 
 .exam-ul {
     list-style-type: none;
     padding-left: 0;
+    color: #ffff;
 }
 
 .exam-ul li {
@@ -82,21 +114,65 @@
 .exam-new-question h2 {
     font-size: 18px;
     margin-bottom: 10px;
+    color:#ffff;
+}
+
+.exam-new-question label {
+    font-weight: bold;
+    color:#ffffff;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.exam-new-question .question-text {
+    padding: 5px;
+    width: 680px;
+    font-size: 14px;
+    margin-left: 5px;
+}
+
+.exam-new-question .answer-text {
+    padding: 5px;
+    width: 580px;
+    font-size: 14px;
+    margin-left: 5px;
+}
+
+.exam-new-question .question-points {
+    padding: 5px;
+    width: 100px;
+    font-size: 14px;
+    margin-top: 5px;
+    margin-left: 26px;
 }
 
 .exam-answer-item {
-    margin-bottom: 10px;
+    color:#ffff;
+}
+
+.exam-answer-checkbox{
+  width: 24px;
+  margin-top: 5px;
+  height: 24px;
+  border: 2px solid #999; /* Stilul graniței */
+  border-radius: 4px; /* Rotunjimea colțurilor */
+  background-color: #fff; /* Culorea fundalului */
 }
 
 .exam-button {
     padding: 10px 20px;
     font-size: 14px;
-    background-color: rgb(47, 148, 47);
-    color: white;
+    background: linear-gradient(135deg, #ffffff, #44ac7f);
+    color: black;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     margin-right: 10px;
+    font-weight: bold;
+}
+
+.exam-button:hover{
+    background: linear-gradient(135deg, #44ac7f, #ffffff);
 }
 
 .timer {
@@ -133,10 +209,52 @@
 }
 
 .correct {
-    color: rgb(3, 100, 3);
+    color: rgb(43, 215, 43);
+    font-weight: bold;
 }
 
 .incorrect {
-    color: red;
+    color: rgb(247, 51, 51);
+    font-weight: bold;
+}
+
+.missed {
+    color: rgb(247, 169, 51);
+    font-weight: bold;
+}
+
+.colors-legend {
+    margin-bottom: 10px;
+    margin-top: -10px;
+}
+
+.title{
+    font-size: 2.5rem;
+    color: white;
+  }
+
+  .total-points {
+      margin-top: -10px;
+      color: #b8b0b0;
+      display: inline-block;
+      padding: 10px 20px;
+      border: 1px solid #ddd;
+      box-shadow: 0 4px 8px rgba(157, 153, 153, 0.1);
+  }
+  
+  .edit-question-button {
+    position: absolute;
+    font-weight: bold;
+    margin-left: 180px;
+    top: 2px; /* sau orice altă valoare pentru a-l plasa mai aproape de întrebare */
+    background: linear-gradient(135deg, #ffffff, #44ac7f);
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .edit-question-button:hover{
+    background: linear-gradient(135deg, #44ac7f, #ffffff);
 }
 

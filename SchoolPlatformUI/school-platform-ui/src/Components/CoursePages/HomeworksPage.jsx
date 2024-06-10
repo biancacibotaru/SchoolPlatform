@@ -3,7 +3,7 @@ import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { useLocation } from 'react-router-dom';
 import './coursePages.css';
 
-const HomeworksPageForTeacher = () => {
+const HomeworksPage = () => {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const id = queryParams.get('id');
@@ -17,9 +17,9 @@ const HomeworksPageForTeacher = () => {
     });
     const [file, setFile] = useState(null);
     const [homeworks, setHomeworks] = useState([]);
+    const [showUploadSection, setShowUploadSection] = useState({});
 
     useEffect(() => {
-        // Fetch homeworks when the component mounts
         fetchHomeworks();
     }, []);
 
@@ -57,7 +57,7 @@ const HomeworksPageForTeacher = () => {
         formData.append('file', file);
 
         try {
-            const response = await fetch('http://localhost:5271/api/Homework/InsertHomework', {
+            const response = await fetch('http://localhost:5271/api/Homework/InsertStudentHomework', {
                 method: 'POST',
                 body: formData
             });
@@ -67,7 +67,7 @@ const HomeworksPageForTeacher = () => {
             }
 
             setShowAddSection(false);
-            fetchHomeworks(); // Update the list of homeworks after adding a new one
+            fetchHomeworks();
         } catch (error) {
             console.error('Error:', error);
         }
@@ -77,37 +77,44 @@ const HomeworksPageForTeacher = () => {
         setShowAddSection(!showAddSection);
     };
 
+    const handleStudentInputChange = (e) => {
+        const { name, files } = e.target;
+        setFile(files[0]);
+    };
+
+    const handleStudentFormSubmit = async (e, homeworkId) => {
+        e.preventDefault();
+
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('homeworkId', homeworkId);
+
+        try {
+            const response = await fetch('http://localhost:5271/api/Homework/SubmitStudentHomework', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to submit homework');
+            }
+
+            fetchHomeworks();
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+    const toggleUploadSection = (homeworkId) => {
+        setShowUploadSection(prevState => ({
+            ...prevState,
+            [homeworkId]: !prevState[homeworkId]
+        }));
+    };
+
     return (
         <div className="content-course">
             <h1>Homeworks</h1>
-            {showAddSection && (
-                <Form onSubmit={handleFormSubmit}>
-                    <FormGroup>
-                        <Label for="title">Title</Label>
-                        <Input type="text" name="title" id="title" value={newMaterial.title} onChange={handleInputChange} required />
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="description">Description</Label>
-                        <Input type="textarea" name="description" id="description" value={newMaterial.description} onChange={handleInputChange} required />
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="startDate">Start Date</Label>
-                        <Input type="date" name="startDate" id="startDate" value={newMaterial.startDate} onChange={handleInputChange} required />
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="endDate">End Date</Label>
-                        <Input type="date" name="endDate" id="endDate" value={newMaterial.endDate} onChange={handleInputChange} required />
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="file">File</Label>
-                        <Input type="file" name="file" id="file" onChange={handleInputChange} />
-                    </FormGroup>
-                    <Button type="submit" color="primary">Add New Homework</Button>
-                </Form>
-            )}
-            <Button color="primary" onClick={toggleAddSection}>{showAddSection ? 'Cancel' : 'Add New Homework'}</Button>
-
-            {/* Display existing homeworks */}
             <div className="homeworks-list">
                 {homeworks.map((homework, index) => (
                     <div key={index} className="homework-item">
@@ -115,6 +122,21 @@ const HomeworksPageForTeacher = () => {
                         <p>{homework.Description}</p>
                         <p>Start Date: {new Date(homework.StartDate).toLocaleDateString()}</p>
                         <p>End Date: {new Date(homework.Deadline).toLocaleDateString()}</p>
+                        {homework.Submitted && <p>Submitted</p>}
+                        {!homework.Submitted && !homework.FileName && new Date(homework.StartDate) <= new Date() && (
+                            <>
+                                <Button color="primary" onClick={() => toggleUploadSection(homework.Id)}>Submit Homework</Button>
+                                {showUploadSection[homework.Id] && (
+                                    <Form onSubmit={(e) => handleStudentFormSubmit(e, homework.Id)} className="upload-form">
+                                        <FormGroup>
+                                            <Label for={`studentFile-${index}`}>Browse File</Label>
+                                            <Input type="file" name="file" id={`studentFile-${index}`} onChange={handleStudentInputChange} required />
+                                        </FormGroup>
+                                        <Button type="submit" color="primary">Submit</Button>
+                                    </Form>
+                                )}
+                            </>
+                        )}
                         {homework.FileName && (
                             <p>
                                 <a href={`data:${homework.ContentType};base64,${homework.Content}`} download={homework.FileName}>
@@ -129,4 +151,4 @@ const HomeworksPageForTeacher = () => {
     );
 };
 
-export default HomeworksPageForTeacher;
+export default HomeworksPage;
