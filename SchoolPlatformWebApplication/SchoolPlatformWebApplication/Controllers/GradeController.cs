@@ -15,7 +15,7 @@ namespace SchoolPlatformWebApplication.Controllers
         }
 
         [HttpPost("InsertGrade")]
-        public async Task<IActionResult> InsertSubject([FromBody] Grade grade)
+        public async Task<IActionResult> InsertGrade([FromBody] Grade grade)
         {
             try
             {
@@ -32,6 +32,22 @@ namespace SchoolPlatformWebApplication.Controllers
             {
                 return StatusCode(500, $"Grade insert error: {ex.Message}");
             }
+        }
+
+        [HttpGet("GetGradesBySubjectAndStudent")]
+        public async Task<IActionResult> GetGradesBySubjectAndStudent([FromQuery] int subjectId, [FromQuery] int studentId)
+        {
+            var list = await this.repo.GetGradesBySubjectAndStudent(subjectId, studentId);
+
+            return Ok(list);
+        }
+
+        [HttpGet("GetGradesByStudent")]
+        public async Task<IActionResult> GetGradesByStudent([FromQuery] int studentId)
+        {
+            var list = await this.repo.GetGradesByStudent(studentId);
+
+            return Ok(list);
         }
     }
 }

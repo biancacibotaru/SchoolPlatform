@@ -353,5 +353,21 @@ namespace SchoolPlatformWebApplication.Repo
 
             return result;
         }
+
+        public async Task<int> GetSubjectIdByExam(int examId)
+        {
+            string query = @"SELECT [SubjectId] FROM [Exam] WHERE [Id] = @ExamId";
+            using (var connection = this.context.CreateConnection())
+            {
+                var parameters = new
+                {
+                    ExamId = examId,
+                };
+
+                var subjectId = await connection.ExecuteScalarAsync<int>(query, parameters);
+
+                return subjectId;
+            }
+        }
     }
 }

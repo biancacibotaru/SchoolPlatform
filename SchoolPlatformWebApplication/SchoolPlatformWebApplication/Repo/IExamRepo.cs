@@ -17,5 +17,6 @@ namespace SchoolPlatformWebApplication.Repo
         Task<List<StudentAnswer>> GetStudentExam(int examId, int studentId);
         Task<StudentExam> GetStudentExamStatus(int examId, int studentId);
         Task<List<AnswersAndStudentAnswers>> GetStudentExamResults(int examId, int studentId);
+        Task<int> GetSubjectIdByExam(int examId);
     }
 }

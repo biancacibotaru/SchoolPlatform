@@ -15,6 +15,7 @@ const CourseMainPage = () => {
            <Link className="course-link" to={`/course-presentation?id=${id}`}>Presentation</Link><br />
            <Link className="course-link" to={`/course-homeworks?id=${id}`}>Homeworks</Link><br />
            <Link className="course-link" to={`/course-exams?id=${id}`}>Exams</Link>
+           <Link className="course-link" to={`/course-grades?id=${id}`}>Grades</Link>
         </div>
     );
 };

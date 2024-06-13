@@ -2,6 +2,7 @@
 using System.Text.Json;
 using SchoolPlatformWebApplication.Models;
 using SchoolPlatformWebApplication.Repo;
+using System.Diagnostics;
 
 namespace SchoolPlatformWebApplication.Controllers
 {
@@ -10,24 +11,11 @@ namespace SchoolPlatformWebApplication.Controllers
     public class ExamController : ControllerBase
     {
         private readonly IExamRepo repo;
-        public ExamController(IExamRepo repo)
+        private readonly IGradeRepo gradeRepo;
+        public ExamController(IExamRepo repo, IGradeRepo gradeRepo)
         {
             this.repo = repo;
-        }
-
-        [HttpGet("GetStudentExam/{examId}")]
-        public async Task<IActionResult> GetStudentResults(int examId, [FromQuery] int studentId)
-        {
-            try
-            {
-                var result = await this.repo.GetStudentExamResults(examId, studentId);
-
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Get exam error: {ex.Message}");
-            }
+            this.gradeRepo = gradeRepo;
         }
 
         [HttpPost("InsertExam")]
@@ -169,6 +157,19 @@ namespace SchoolPlatformWebApplication.Controllers
             }
 
             await repo.SetTotalPoints(studentExam, totalPoints + 1);
+
+            int subjectId = await repo.GetSubjectIdByExam(studentResponse.ExamId);
+            Grade newGrade = new Grade()
+            {
+                Points = totalPoints + 1,
+                StudentId = studentResponse.StudentId,
+                SubjectId = subjectId,
+                ExamId = studentResponse.ExamId,
+                GradeFor = "Exam",
+                GradeDate = DateTime.Now.ToString("M/d/yyyy h:mm:ss tt")
+            };
+
+            var responseGrade = await this.gradeRepo.InsertGrade(newGrade);
 
             return Ok("Exam submitted successfully!");
         }

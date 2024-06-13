@@ -125,25 +125,109 @@
     cursor: pointer;
 }
 
+.form-homework {
+    background-color: #233a50;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.label-homework {
+    color: white;
+    margin-bottom: 10px;
+}
+
+.input-homework,
+.textarea-homework,
+.datetime-homework,
+.file-homework {
+    color: black;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    padding: 7px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.input-homework:focus,
+.textarea-homework:focus,
+.datetime-homework:focus,
+.file-homework:focus {
+    outline: none;
+}
+
+.button-homework {
+    background-color: #247db9;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.button-homework:hover {
+    background-color: #2980b9;
+}
+
+.form-dates {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-dates .form-group {
+    width: 48%;
+}
+
 .homeworks-list {
     margin-top: 20px;
 }
 
 .homework-item {
-    background-color: #fff;
+    background-color: #ecf0f1;
     padding: 15px;
-    margin-bottom: 15px;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-bottom: 20px;
 }
 
 .homework-item h2 {
-    margin-top: 0;
-    font-size: 1.5em;
+    margin-top: 0; /* Elimină spațiul de sus al titlului */
+    margin-bottom: 10px; /* Adaugă un spațiu între titlu și descriere */
 }
 
 .homework-item p {
-    margin: 5px 0;
+    margin: 5px 0; /* Spațiu între detaliile temei */
+}
+
+.homework-item hr {
+    width: 100%; /* Setează lățimea liniei la 100% */
+    border-top: 1px solid #ddd; /* Stilizează linia cu o margine subțire */
+    margin: 10px 0; /* Adaugă o margine sus și jos pentru a delimita liniile */
+}
+
+.file-viewer {
+    font-family: Arial, sans-serif; /* Utilizează o familie de fonturi sans-serif pentru o citire ușoară */
+    font-size: 14px; /* Mărimea textului */
+    line-height: 1.5; /* Înălțimea liniilor */
+    color: #333; /* Culoarea textului */
+}
+
+/* Stilizare pentru linkuri */
+.file-viewer a {
+    color: #007bff; /* Culoarea linkurilor */
+    text-decoration: none; /* Elimină sublinierea implicită */
+}
+
+.file-viewer a:hover {
+    text-decoration: underline; /* Adaugă sublinierea la hover */
+}
+
+/* Stilizare pentru linii orizontale */
+.file-viewer hr {
+    border: 0; /* Elimină orice margini sau borduri implicite */
+    border-top: 1px solid #ccc; /* Stilizează linia cu o margine subțire */
+    margin: 20px 0; /* Adaugă o margine sus și jos pentru a delimita liniile */
 }
 
 .upload-form {
@@ -230,3 +314,118 @@ button {
 .add-exam-button:hover {
     background: linear-gradient(135deg, #eaf2f5, #70d8f5); /* gradient on hover */
 }
+
+.error-message {
+    color: red;
+    font-weight: bold;
+}
+
+.submission {
+    color: red;
+    font-weight: bold;
+}
+
+.homework-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.homework-item {
+    position: relative;
+}
+
+.submission-alert {
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    color: #FF8400;
+    font-weight: bold;
+}
+
+.view-submissions {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    background-color: #FF8400;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+/* Stilizare buton pentru vizualizarea temei profesorului */
+.button-view-teacher-homework {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.button-view-teacher-homework:hover {
+    background-color: #0056b3;
+}
+
+.homework-student-button{
+    background-color: rgb(133, 203, 218);
+    border-radius: 5px;
+    border: none;
+    color: blue; 
+    text-decoration: none; 
+    cursor: pointer; 
+}
+
+.homework-requirement{
+    text-decoration: none;
+}
+
+.homework-solved{
+    text-decoration: none;
+}
+
+.submit-homework{
+    background-color: rgb(133, 203, 218);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.submit-homework:hover{
+    background-color: #5496dc;
+}
+
+.table th,
+.table td {
+    vertical-align: middle;
+}
+
+.table .student-name {
+    width: auto;
+    white-space: nowrap;
+}
+
+.table .homework-file {
+    width: auto;
+    white-space: nowrap;
+}
+
+.download-button {
+    display: inline-block;
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px; /* Adjust as needed */
+}
+
+.grade-button{
+    background-color: #b9d2ed;
+    border-radius: 2px;
+    padding: 5px;
+    cursor: pointer;
+    margin-top: -5px;
+}
+
+

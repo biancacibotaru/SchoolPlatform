@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './coursePages.css';
 
 const HomeworksPageForTeacher = () => {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const id = queryParams.get('id');
+    const navigate = useNavigate();
 
     const [showAddSection, setShowAddSection] = useState(false);
     const [newMaterial, setNewMaterial] = useState({
         title: '',
         description: '',
-        startDate: new Date().toISOString().split('T')[0],
+        startDate: new Date().toISOString().split('T')[0], // Initial, setăm data de azi
         endDate: ''
     });
     const [file, setFile] = useState(null);
     const [homeworks, setHomeworks] = useState([]);
 
     useEffect(() => {
-        // Fetch homeworks when the component mounts
         fetchHomeworks();
     }, []);
 
@@ -67,7 +67,7 @@ const HomeworksPageForTeacher = () => {
             }
 
             setShowAddSection(false);
-            fetchHomeworks(); // Update the list of homeworks after adding a new one
+            fetchHomeworks();
         } catch (error) {
             console.error('Error:', error);
         }
@@ -77,51 +77,58 @@ const HomeworksPageForTeacher = () => {
         setShowAddSection(!showAddSection);
     };
 
+    const handleViewSubmissions = (homeworkId) => {
+        navigate(`/view-homework-submissions?id=${homeworkId}`);
+    };
+
     return (
         <div className="content-course">
-            <h1>Homeworks</h1>
+            <h1 className='title'>Homeworks</h1>
             {showAddSection && (
-                <Form onSubmit={handleFormSubmit}>
+                <Form className="form-homework" onSubmit={handleFormSubmit}>
                     <FormGroup>
-                        <Label for="title">Title</Label>
-                        <Input type="text" name="title" id="title" value={newMaterial.title} onChange={handleInputChange} required />
+                        <Label className="label-homework" for="title">Title</Label>
+                        <Input className="input-homework" type="text" name="title" id="title" value={newMaterial.title} onChange={handleInputChange} required />
                     </FormGroup>
                     <FormGroup>
-                        <Label for="description">Description</Label>
-                        <Input type="textarea" name="description" id="description" value={newMaterial.description} onChange={handleInputChange} required />
+                        <Label className="label-homework" for="description">Description</Label>
+                        <Input className="textarea-homework" type="textarea" name="description" id="description" value={newMaterial.description} onChange={handleInputChange} required />
                     </FormGroup>
+                    <div className="form-dates">
+                        <FormGroup className="form-group">
+                            <Label className="label-homework" for="startDate">Start Date</Label>
+                            <Input className="datetime-homework" type="datetime-local" name="startDate" id="startDate" value={newMaterial.startDate} onChange={handleInputChange} required />
+                        </FormGroup>
+                        <FormGroup className="form-group">
+                            <Label className="label-homework" for="endDate">End Date</Label>
+                            <Input className="datetime-homework" type="datetime-local" name="endDate" id="endDate" value={newMaterial.endDate} onChange={handleInputChange} required />
+                        </FormGroup>
+                    </div>
                     <FormGroup>
-                        <Label for="startDate">Start Date</Label>
-                        <Input type="date" name="startDate" id="startDate" value={newMaterial.startDate} onChange={handleInputChange} required />
+                        <Label className="label-homework" for="file">File</Label>
+                        <Input className="file-homework" type="file" name="file" id="file" onChange={handleInputChange} />
                     </FormGroup>
-                    <FormGroup>
-                        <Label for="endDate">End Date</Label>
-                        <Input type="date" name="endDate" id="endDate" value={newMaterial.endDate} onChange={handleInputChange} required />
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="file">File</Label>
-                        <Input type="file" name="file" id="file" onChange={handleInputChange} />
-                    </FormGroup>
-                    <Button type="submit" color="primary">Add New Homework</Button>
+                    <Button className="button-homework" type="submit" color="primary">Add New Homework</Button>
                 </Form>
             )}
-            <Button color="primary" onClick={toggleAddSection}>{showAddSection ? 'Cancel' : 'Add New Homework'}</Button>
+            <Button className="button-homework" color="primary" onClick={toggleAddSection}>{showAddSection ? 'Cancel' : 'Add New Homework'}</Button>
 
-            {/* Display existing homeworks */}
             <div className="homeworks-list">
                 {homeworks.map((homework, index) => (
                     <div key={index} className="homework-item">
                         <h2>{homework.Title}</h2>
-                        <p>{homework.Description}</p>
-                        <p>Start Date: {new Date(homework.StartDate).toLocaleDateString()}</p>
-                        <p>End Date: {new Date(homework.Deadline).toLocaleDateString()}</p>
+                        <hr />
+                        <p><strong>Description:</strong> {homework.Description}</p>
                         {homework.FileName && (
-                            <p>
+                            <p className="file-viewer">
                                 <a href={`data:${homework.ContentType};base64,${homework.Content}`} download={homework.FileName}>
-                                    Download {homework.FileName}
+                                    {homework.FileName}
                                 </a>
                             </p>
                         )}
+                        <p><strong>Start Date:</strong> {new Date(homework.StartDate).toLocaleString([], { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}</p>
+                        <p><strong>End Date:</strong> {new Date(homework.Deadline).toLocaleString([], { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}</p>
+                        <button className="view-submissions" onClick={() => handleViewSubmissions(homework.Id)}>View submissions</button>
                     </div>
                 ))}
             </div>

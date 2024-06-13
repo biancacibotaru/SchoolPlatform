@@ -16,6 +16,8 @@ import CourseMainPage from './Components/CoursePages/CourseMainPage';
 import CourseMainPageForTeacher from './Components/CoursePages/CourseMainPageForTeacher';
 import CoursePresentation from './Components/CoursePages/CoursePresentation';
 import CoursePresentationForTeacher from './Components/CoursePages/CoursePresentationForTeacher';
+import HomeworkSubmissions from './Components/CoursePages/HomeworkSubmissions';
+import CourseGrades from './Components/CoursePages/GradePage';
 import CourseExams from './Components/CoursePages/CourseExams';
 import CourseExamsForTeacher from './Components/CoursePages/CourseExamsForTeacher';
 import CourseHomeworksForTeacher from './Components/CoursePages/HomeworksPageForTeacher';
@@ -99,10 +101,12 @@ const App = () => {
       <Route path="/course-main-page-for-teacher" element={<CourseMainPageForTeacher />} />
       <Route path="/course-presentation" element={<CoursePresentation />} />
       <Route path="/course-presentation-for-teacher" element={<CoursePresentationForTeacher />} />
+      <Route path="/course-grades" element={<CourseGrades />} />
       <Route path="/course-exams" element={<CourseExams />} />
       <Route path="/course-exams-for-teacher" element={<CourseExamsForTeacher />} />
       <Route path="/course-homeworks-for-teacher" element={<CourseHomeworksForTeacher />} />
       <Route path="/course-homeworks" element={<CourseHomeworks />} />
+      <Route path="/view-homework-submissions" element={<HomeworkSubmissions />} />
       </Route>
       <Route element={<ExamPages />}>
         <Route path="/configure-exam" element={<ConfigureExam />} />
