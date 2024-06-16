@@ -108,7 +108,6 @@ const ViewExamForStudent = () => {
         };
 
         try {
-            console.log(JSON.stringify(studentResponse));
             const response = await fetch(`http://localhost:5271/api/Exam/SubmitExam`, {
                 method: 'POST',
                 headers: {
@@ -122,9 +121,7 @@ const ViewExamForStudent = () => {
             }
 
             alert('Exam submitted successfully!');
-            setTimeout(() => {
-                navigate(`/course-exams?id=${subjectId}`);  // Redirect to the course page after submission
-            }, 1000); // Adjust the delay as needed
+            navigate(`/course-exams?id=${subjectId}`);  // Redirect to the course page after submission
         } catch (error) {
             console.error('Error submitting exam:', error);
         }
@@ -140,9 +137,8 @@ const ViewExamForStudent = () => {
             <form onSubmit={handleSubmit} className="exam-form">
                 {questions.map((question, qIndex) => (
                     <div key={qIndex} className="exam-question-item-student">
-                        <h2>➡️ Question {qIndex + 1}</h2>
+                        <h2>➡️ Question {qIndex + 1} ({question.Points}p)</h2>
                         <p className="question-align">{question.Text}</p>
-                        <p className="question-align">Points: {question.Points}</p>
                         <ul className="exam-ul question-align">
                             {question.Answers.map((answer, aIndex) => (
                                 <li key={aIndex}>

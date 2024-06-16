@@ -1,141 +1,231 @@
 .admin-page {
-    padding: 20px;
-    text-align: center;
-  }
-  
-  .table-container {
-    margin-top: 20px;
-    overflow-x: auto;
-  }
-  
-  table {
-    border-collapse: collapse;
-    margin: 0 auto;
-    width: auto;
-  }
-  
-  .th, td {
-    border: 1px solid #ddd;
-    padding: 8px 35px; /* 8px sus/jos, 12px stânga/dreapta */
-    text-align: left;
-  }
-  
-  
-  th {
-    background-color: #f2f2f2;
-  }
-  
-  tr:nth-child(even) {
-    background-color: #f2f2f2;
-  }
-  
-  tr:hover {
-    background-color: #ddd;
-  }
+  padding: 20px;
+  text-align: center;
+}
 
-  .red-button {
-    background-color: #275b8f;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 5px;
-    text-decoration: none;
-  }
+.class-buttons-container {
+  display: flex;
+  /* margin-left: 200px; */
+  justify-content: center; /* Aliniere butoane pe orizontală în centru */
+  margin-top: 20px;
+  text-align: center;
+}
 
-  .success-popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #4CAF50;
-    color: white;
-    padding: 30px; /* Mărim puțin padding-ul pentru a face popup-ul mai mare */
-    border-radius: 10px; /* Mărim și raza de colțuri */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-  }
+.class-name {
+  background-color: #5585b6;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 14px;
+  margin: 0 10px; /* Spațiere între butoane */
+  transition: background-color 0.3s;
+}
 
-  .popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
-    padding: 20px;
-    z-index: 1000;
-  }
-  
-  .close-button {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    color: black;
-    cursor: pointer;
-    text-decoration: none; 
-  }
+.class-name.active {
+  background-color: #9fbde4;
+  color: black;
+  font-weight: bold;
+}
 
-  .close-button:hover {
-    color: red; /* Schimbă culoarea la survol */
-  }  
-  
-  .popup-message {
-    margin-bottom: 10px;
-    font-weight: bold;
-  }
-  
-  
-  .add-teacher-form-container {
-    position: relative; /* Setăm poziția relativă pentru a permite plasarea absolută a mesajului de eroare */
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centrăm elementele în interiorul containerului */
-  }
-  
-  .add-teacher-form-container form {
-    margin-top: 10px;
-    display: flex;
-    flex-direction: column; /* Așezăm câmpurile unul sub altul */
-    align-items: center; /* Centrăm câmpurile */
-  }
-  
-  .add-teacher-form-container input{
-    margin: 12px; /* Adăugăm un mic spațiu între câmpuri */
-  }
+.table-container {
+  margin-top: 20px;
+  overflow-x: auto;
+}
 
-  .add-teacher-form-container select{
-    margin: 12px 0; /* Adăugăm un mic spațiu între câmpuri */
-  }
-  
-  .error-message {
-    position: absolute;
-    color: rgb(228, 9, 9);
-    font-size: 15px;
-    font-weight: bold;
-    margin-top: -10px;
-  }
-  
+table {
+  border-collapse: collapse;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 800px;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
 
-  .add-teacher-button {
-    align-self: right;
-    margin-left: 550px;
-    margin-top: 5px;
-    background-color: #007bff;
-    font-size: 15px; 
-    font-weight: bold;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 2px;
-    cursor: pointer; /* Spațiu între ultimul input și buton */
-  }
+th, td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+  font-size: 16px;
+}
 
-  .title{
-    font-size: 2.5rem;
-    color: #ffff;
-  }
-  
-  
-  
-  
+th {
+  background-color: #f2f2f2;
+  color: #333;
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tr:hover {
+  background-color: #f1f1f1;
+}
+
+.red-button {
+  background-color: #275b8f;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.red-button:hover {
+  background-color: #1a3f6e;
+}
+
+.success-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #4CAF50;
+  color: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.close-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  color: black;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.close-button:hover {
+  color: red;
+}
+
+.popup-message {
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.add-item-form-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.add-item-form-container form {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.add-item-form-container input,
+.add-item-form-container select {
+  margin: 12px;
+  width: 100%;
+  max-width: 300px;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.error-message {
+  position: absolute;
+  color: rgb(228, 9, 9);
+  font-size: 15px;
+  font-weight: bold;
+  margin-top: -10px;
+}
+
+.add-item-button {
+  margin-top: 10px;
+  background-color: #a5c2f4;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin-left: 500px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.add-item-button:hover {
+  background-color: #3074be;
+}
+
+.title {
+  font-size: 2.5rem;
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+.add-subject-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.add-subject-button:hover {
+  background-color: #45a049;
+}
+
+.no-join-requests {
+  color: white;
+  margin-left: -500px;
+}
+
+.decision-join {
+  background-color: #275b8f;
+  color: white;
+  border: none;
+  padding: 5px 5px;
+  cursor: pointer;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.decision-join:hover {
+  background-color: #4d84cc;
+}
+
+.proof-file{
+  text-decoration: none;
+}
+
+.no-students {
+  color: white;
+  margin-left: -400px;
+  margin-top: 70px;
+}

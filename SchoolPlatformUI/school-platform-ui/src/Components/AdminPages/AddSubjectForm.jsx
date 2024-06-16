@@ -49,7 +49,7 @@ const AddSubjectForm = ({ onAddSubject, selectedClassName }) => {
     };
 
     return (
-        <div className="add-subject-form-container">
+        <div className="add-item-form-container">
             {error && <span className="error-message">{error}</span>}
             <form onSubmit={handleSubmit}>
                 <input
@@ -60,6 +60,7 @@ const AddSubjectForm = ({ onAddSubject, selectedClassName }) => {
                 />
                 <input
                     type="text"
+                    hidden
                     placeholder="Class"
                     value={selectedClassName} // Utilizăm numele clasei selectate
                     readOnly
@@ -82,7 +83,7 @@ const AddSubjectForm = ({ onAddSubject, selectedClassName }) => {
                     value={newSubjectHours}
                     onChange={(e) => setNewSubjectHours(e.target.value)}
                 />
-                <button className="new-subject-button" type="submit">Add</button>
+                <button className="new-item-button" type="submit">Add</button>
             </form>
         </div>
     );

@@ -3,6 +3,7 @@
     max-width: 800px;
     margin: 0 auto;
     font-family: Arial, sans-serif;
+    background-color: rgba(0, 0, 0, 0.7);
 }
 
 .exam-form {
@@ -101,6 +102,12 @@
     list-style-type: none;
     padding-left: 0;
     color: #ffff;
+}
+
+.exam-p {
+    color: #ffff;
+    font-weight: bold;
+    margin-right: 5px;
 }
 
 .exam-ul li {
@@ -235,7 +242,7 @@
 
   .total-points {
       margin-top: -10px;
-      color: #b8b0b0;
+      color: #f0e6e6;
       display: inline-block;
       padding: 10px 20px;
       border: 1px solid #ddd;
@@ -280,4 +287,21 @@
     z-index: 1000; /* Asigură că overlay-ul este deasupra oricărui alt element */
 }
 
+.legend{
+    color: #ffff
+}
+
+.insert-grade-exam {
+    color: white;
+    margin-bottom: 20px;
+    cursor: pointer;
+    padding: 7px 8px;
+    border-radius: 3px;
+    border: none;
+    background: linear-gradient(135deg, #248bc3, #296ab9);
+}
+
+.insert-grade-exam:hover {
+    background: linear-gradient(135deg, #5e98f5, #498ac7);
+}
 

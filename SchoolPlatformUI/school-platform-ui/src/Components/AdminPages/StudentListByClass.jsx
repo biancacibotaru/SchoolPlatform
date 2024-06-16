@@ -30,7 +30,8 @@ const StudentListByClass = () => {
 
   return (
     <div className="admin-page">
-      {classCode && <h1>Students of Class {classCode}</h1>}
+      <h1 className='title'>Students of Classroom {classCode}</h1>
+      {students.length > 0 ? (
       <div className="table-container">
         <table>
           <thead>
@@ -51,7 +52,11 @@ const StudentListByClass = () => {
           </tbody>
         </table>
       </div>
-    </div>
+    ) : 
+    (<div>
+      <h2 className='no-students'>No students in the classroom.</h2>
+      </div>)}
+    </div> 
   );
 };
 

@@ -12,6 +12,8 @@ const Sidebar = () => {
 
     const [closeMenu, setCloseMenu] = useState(false);
     const [userData, setUserData] = useState({});
+    const [hasFutureExams, setHasFutureExams] = useState(false);
+    const [hasFutureHomeworks, setHasFutureHomeworks] = useState(false);
 
     useEffect(() => {
         const getUserDataFromCookie = () => {
@@ -21,8 +23,39 @@ const Sidebar = () => {
             }
         };
 
+        const checkForFutureExams = async (classCode) => {
+            try {
+                const response = await fetch(`http://localhost:5271/api/Exam/CheckIfFutureExamsByClass?classCode=${classCode}`);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                setHasFutureExams(data); // Assuming the API returns a boolean
+            } catch (error) {
+                console.error('Error checking for future exams:', error);
+            }
+        };
+
+        const checkForFutureHomeworks = async (classCode, studentId) => {
+            try {
+                const response = await fetch(`http://localhost:5271/api/Homework/CheckIfFutureHomeworksByClass?classCode=${classCode}&studentId=${studentId}`);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                setHasFutureHomeworks(data); // Assuming the API returns a boolean
+            } catch (error) {
+                console.error('Error checking for future exams:', error);
+            }
+        };
+
         getUserDataFromCookie();
-    }, []);
+
+        if (userData.Class) {
+            checkForFutureExams(userData.Class);
+            checkForFutureHomeworks(userData.Class, userData.Id);
+        }
+    }, [userData.Class, userData.Id]);
 
     const handleCloseMenu = () => {
         setCloseMenu(!closeMenu);
@@ -54,7 +87,8 @@ const Sidebar = () => {
                     <ul>
                         <li className={location.pathname === "/student-courses" ? "active" : ""}><a href="student-courses">Courses</a></li>
                         <li className={location.pathname === "/student-grades" ? "active" : ""}><a href="student-grades">Grades</a></li>
-                        <li className={location.pathname === "/student-exams" ? "active" : ""}><a href="student-exams">Exams</a></li>
+                        <li className={location.pathname === "/student-exams" ? "active" : ""}><a href="student-exams">Exams {hasFutureExams && <span className="alert-icon">!</span>}</a></li>
+                        <li className={location.pathname === "/student-homeworks" ? "active" : ""}><a href="student-homeworks">Homeworks {hasFutureHomeworks && <span className="alert-icon">!</span>}</a></li>
                         <li className="logout" onClick={handleLogout}>
                             <button>
                                 <FaSignOutAlt className="logoutIcon" />
@@ -78,8 +112,7 @@ const Sidebar = () => {
             ) : userData.Type === "admin" ? (
                 <div className={closeMenu === false ? "contentsContainer" : "contentsContainer active"}>
                     <ul>
-
-                        <li className={location.pathname === "/admin-classes-list" ? "active" : ""}><a href="admin-classes-list">Classes</a></li>
+                        <li className={location.pathname === "/admin-classes-list" ? "active" : ""}><a href="admin-classes-list">Classrooms</a></li>
                         <li className={location.pathname === "/admin-teachers-list" ? "active" : ""}><a href="admin-teachers-list">Teachers</a></li>
                         <li className={location.pathname === "/admin-subjects-list" ? "active" : ""}><a href="admin-subjects-list">Subjects</a></li>
                         <li className={location.pathname === "/admin-join-requests-list" ? "active" : ""}><a href="admin-join-requests-list">Join Requests</a></li>
@@ -94,7 +127,6 @@ const Sidebar = () => {
             ) : userData.Type === "teacher" ? (
                 <div className={closeMenu === false ? "contentsContainer" : "contentsContainer active"}>
                     <ul>
-
                         <li className={location.pathname === "/teacher-courses-list" ? "active" : ""}><a href="teacher-courses-list">Courses</a></li>
                         <li className="logout" onClick={handleLogout}>
                             <button>

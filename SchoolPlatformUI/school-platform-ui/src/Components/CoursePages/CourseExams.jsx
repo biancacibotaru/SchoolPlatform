@@ -73,55 +73,59 @@ const CourseExams = () => {
     return (
         <div className="content-course">
             <h1 className="title">Course Exams</h1>
-            <table className="exam-table">
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Description</th>
-                        <th>Duration</th>
-                        <th>Started on</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {exams.map((exam, index) => {
-                        const startTime = new Date(exam.StartedOn).getTime();
-                        const endTime = startTime + exam.Duration * 60000;
-                        const currentTime = new Date().getTime();
-                        const status = examStatuses[exam.Id];
+            {exams.length === 0 ? (
+                <h2 className='no-items-with-space'>No exams yet.</h2>
+            ) : (
+                <table className="exam-table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Duration (min)</th>
+                            <th>Started on</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {exams.map((exam, index) => {
+                            const startTime = new Date(exam.StartedOn).getTime();
+                            const endTime = startTime + exam.Duration * 60000;
+                            const currentTime = new Date().getTime();
+                            const status = examStatuses[exam.Id];
 
-                        return (
-                            <tr key={index}>
-                                <td>{exam.Title}</td>
-                                <td>{exam.Description}</td>
-                                <td>{exam.Duration}</td>
-                                <td>{exam.StartedOn}</td>
-                                <td>
-                                    {currentTime < startTime ? (
-                                        <span>Exam not started yet</span>
-                                    ) : currentTime > endTime ? (
-                                        status ? (
+                            return (
+                                <tr key={index}>
+                                    <td>{exam.Title}</td>
+                                    <td>{exam.Description}</td>
+                                    <td>{exam.Duration}</td>
+                                    <td>{exam.StartedOn}</td>
+                                    <td>
+                                        {currentTime < startTime ? (
+                                            <span>Not started yet</span>
+                                        ) : currentTime > endTime ? (
+                                            status ? (
+                                                <Link to={`/view-exam-result-for-student?id=${exam.Id}`} style={{ textDecoration: 'none' }}>
+                                                    View results
+                                                </Link>
+                                            ) : (
+                                                <span>Missed exam</span>
+                                            )
+                                        ) : status ? (
                                             <Link to={`/view-exam-result-for-student?id=${exam.Id}`} style={{ textDecoration: 'none' }}>
                                                 View results
                                             </Link>
                                         ) : (
-                                            <span>Missed exam</span>
-                                        )
-                                    ) : status ? (
-                                        <Link to={`/view-exam-result-for-student?id=${exam.Id}`} style={{ textDecoration: 'none' }}>
-                                            View results
-                                        </Link>
-                                    ) : (
-                                        <Link to={`/view-exam-for-student?id=${exam.Id}&subjectId=${id}`} style={{ textDecoration: 'none' }}>
-                                            Start exam
-                                        </Link>
-                                    )}
-                                </td>
-                            </tr>
-                        );
-                    })}
-                </tbody>
-            </table>
+                                            <Link to={`/view-exam-for-student?id=${exam.Id}&subjectId=${id}`} style={{ textDecoration: 'none' }}>
+                                                Start exam
+                                            </Link>
+                                        )}
+                                    </td>
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                </table>
+            )}
         </div>
     );
 };

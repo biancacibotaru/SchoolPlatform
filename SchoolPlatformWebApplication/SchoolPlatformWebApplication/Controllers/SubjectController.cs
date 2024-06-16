@@ -43,7 +43,7 @@ namespace SchoolPlatformWebApplication.Controllers
                 Subject subject = new Subject();
 
                 subject.Name = newSubject["Name"];
-                subject.ClassId = await this.classRepo.GetClassIdByCode(newSubject["Class"]);
+                subject.ClassId = Convert.ToInt32(newSubject["Class"]);
                 subject.TeacherId = Convert.ToInt32(newSubject["TeacherId"]);
                 subject.HoursPerWeek = Convert.ToInt32(newSubject["HoursPerWeek"]);
 

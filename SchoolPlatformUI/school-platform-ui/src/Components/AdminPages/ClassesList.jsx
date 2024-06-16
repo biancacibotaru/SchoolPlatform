@@ -101,7 +101,7 @@ const ClassesListPage = () => {
       </div>
       <div>
         {!showPopup && (
-          <button className="add-teacher-button" onClick={() => setShowPopup(true)}>+</button>
+          <button className="add-item-button" onClick={() => setShowPopup(true)}>+</button>
         )}
         {showPopup && (
           <div className="popup">

@@ -5,7 +5,7 @@ using SchoolPlatformWebApplication.Models.Data;
 
 namespace SchoolPlatformWebApplication.Repo
 {
-    public class UserClassRepo: IUserClassRepo
+    public class UserClassRepo : IUserClassRepo
     {
         private readonly DapperDBContext context;
         public UserClassRepo(DapperDBContext context)
@@ -30,7 +30,7 @@ namespace SchoolPlatformWebApplication.Repo
             {
                 var parameters = new
                 {
-                    ClassId = newObject.ClassId, 
+                    ClassId = newObject.ClassId,
                     UserId = newObject.UserId,
                     Role = newObject.Role
                 };
@@ -56,18 +56,13 @@ namespace SchoolPlatformWebApplication.Repo
 
         public async Task<List<object>> GetStudentsByClass(int classId)
         {
-            string query = "SELECT [User].[Id] as Id, [Code] as ClassCode,  [User].[Firstname] as StudentFirstname, [User].[Lastname] as StudentLastname," +
-                "[User].[Email] as StudentEmail  FROM [dbo].[UserClass]" +
-                "inner join [User] on [dbo].[UserClass].[UserId] = [dbo].[User].[Id]" +
-                "inner join [Class] on [dbo].[UserClass].[ClassId] = [dbo].[Class].[Id]" +
-                "where [ClassId] = @ClassId and [Role] = 'member'" +
-                "order by [User].[Firstname]";
-
+            string query = "SELECT [User].[Id] as Id, [Code] as ClassCode,  [User].[Firstname] as StudentFirstname, [User].[Lastname] as StudentLastname, [User].[Email] as StudentEmail  FROM [dbo].[UserClass] inner join [User] on [dbo].[UserClass].[UserId] = [dbo].[User].[Id] inner join [Class] on [dbo].[UserClass].[ClassId] = [dbo].[Class].[Id] where ([ClassId] = @ClassId and [Role] = @Role) order by [User].[Firstname]";
             using (var connection = this.context.CreateConnection())
             {
                 var parameters = new
                 {
-                    ClassId = classId
+                    ClassId = classId,
+                    Role = "student"
                 };
                 var userList = await connection.QueryAsync<object>(query, parameters);
                 return userList.ToList();

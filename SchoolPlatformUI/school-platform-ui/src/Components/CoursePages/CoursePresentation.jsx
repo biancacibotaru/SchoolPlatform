@@ -53,29 +53,33 @@ const CoursePresentation = () => {
     return (
         <div className="content-course">
             <h1 className="title">Course Materials</h1>
-            {Object.keys(groupedMaterials).map((date, index) => (
-                <div key={date} className="material-group">
-                    <h2 className="material-date">{date}</h2>
-                    {groupedMaterials[date].map((material, materialIndex) => {
-                        // Crearea URL-ului data-uri pentru descărcare/vizualizare
-                        const fileUrl = `data:application/octet-stream;base64,${material.FileContent}`;
-                        
-                        return (
-                            <div key={material.id} className="material-item">
-                                <h2 className="material-title">{material.Title}</h2>
-                                <p className="material-description">{material.Description}</p>
-                                {material.FileName && (
-                                    <a href={fileUrl} download={material.FileName} className="material-download">
-                                       {material.FileName}
-                                    </a>
-                                )}
-                                {/* Adăugarea unei linii orizontale între materiale, cu excepția ultimului material din grup */}
-                                {materialIndex < groupedMaterials[date].length - 1 && <hr className="material-divider" />}
-                            </div>
-                        );
-                    })}
-                </div>
-            ))}
+            {materials.length === 0 ? (
+                <h2 className='no-items-with-space'>No study materials yet.</h2>
+            ) : (
+                Object.keys(groupedMaterials).map((date, index) => (
+                    <div key={date} className="material-group">
+                        <h2 className="material-date">{date}</h2>
+                        {groupedMaterials[date].map((material, materialIndex) => {
+                            // Crearea URL-ului data-uri pentru descărcare/vizualizare
+                            const fileUrl = `data:application/octet-stream;base64,${material.FileContent}`;
+
+                            return (
+                                <div key={material.id} className="material-item">
+                                    <h2 className="material-title">{material.Title}</h2>
+                                    <p className="material-description">{material.Description}</p>
+                                    {material.FileName && (
+                                        <a href={fileUrl} download={material.FileName} className="material-download">
+                                            {material.FileName}
+                                        </a>
+                                    )}
+                                    {/* Adăugarea unei linii orizontale între materiale, cu excepția ultimului material din grup */}
+                                    {materialIndex < groupedMaterials[date].length - 1 && <hr className="material-divider" />}
+                                </div>
+                            );
+                        })}
+                    </div>
+                ))
+            )}
         </div>
     );
 };

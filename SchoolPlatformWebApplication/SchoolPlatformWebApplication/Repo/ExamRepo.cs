@@ -369,5 +369,104 @@ namespace SchoolPlatformWebApplication.Repo
                 return subjectId;
             }
         }
+
+        public async Task<List<Exam>> GetFutureExamsByClass(string classCode)
+        {
+            List<Exam> exams = new List<Exam>();
+            List<Exam> futureExams = new List<Exam>();
+
+            string query = @"SELECT [SubjectId],[Title], [Subject].[Name] as Description,[Duration],[StartedOn],[State] FROM [dbo].[Exam] inner join Subject on Exam.SubjectId = Subject.Id inner join Class on Class.Id = Subject.ClassId where (Class.Code = @ClassCode AND [State]=@State)";
+            using (var connection = this.context.CreateConnection())
+            {
+                var parameters = new
+                {
+                    ClassCode = classCode,
+                    State = "published"
+                };
+
+                var response = await connection.QueryAsync<Exam>(query, parameters);
+
+                exams = response.ToList();
+
+                foreach (var exam in exams)
+                {
+                    if (DateTime.TryParse(exam.StartedOn, out DateTime dateTime))
+                    {
+                        if (dateTime.AddMinutes(exam.Duration) > DateTime.Now)
+                        {
+                            futureExams.Add(exam);
+                        }
+                    }
+                }
+            }
+
+            return futureExams;
+        }
+
+        public async Task<bool> CheckIfFutureExamsByClass(string classCode)
+        {
+            var futureExams = await this.GetFutureExamsByClass(classCode);
+            if (futureExams.Count > 0)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<List<ExamResult>> GetExamResultsForAllStudents(int examId)
+        {
+            string query = @"SELECT UC.UserId, ISNULL(SE.ExamId, 0) AS ExamId, SE.TotalPoints, U.Firstname, U.Lastname, U.Email FROM UserClass UC LEFT JOIN (SELECT StudentId, ExamId, TotalPoints FROM StudentExam WHERE ExamId = @ExamId) SE ON UC.UserId = SE.StudentId LEFT JOIN [User] U ON UC.UserId = U.Id WHERE UC.ClassId = (SELECT TOP 1 ClassId FROM Subject WHERE Id = (SELECT SubjectId FROM Exam WHERE Id = @ExamId)) AND UC.Role = 'student' order by SE.TotalPoints desc;";
+            using (var connection = this.context.CreateConnection())
+            {
+                var parameters = new
+                {
+                    ExamId = examId
+                };
+
+                var examResults = await connection.QueryAsync<ExamResult>(query, parameters);
+
+                return examResults.ToList();
+            }
+        }
+
+        public async Task<bool> InsertExamGradeForAbsentStudents(int examId, int subjectId)
+        {
+            var examResults = await this.GetExamResultsForAllStudents(examId);
+            var absentStudents = examResults.Where(e => e.TotalPoints == null).ToList();
+
+            foreach (var student in absentStudents)
+            {
+                string query = @"INSERT INTO [Grade] ([Points],[StudentId],[SubjectId],[ExamId],[GradeFor],[GradeDate]) OUTPUT INSERTED.Id VALUES (1, @StudentId, @SubjectId, @ExamId, @GradeFor, @GradeDate)";
+                using (var connection = this.context.CreateConnection())
+                {
+                    var parameters = new
+                    {
+                        Points = 1,
+                        StudentId = student.UserId,
+                        SubjectId = subjectId,
+                        ExamId = examId,
+                        GradeFor = "Missed Exam",
+                        GradeDate = DateTime.Now.ToString("M/d/yyyy h:mm:ss tt")
+                    };
+
+                    var response = await connection.ExecuteScalarAsync<int>(query, parameters);
+                }
+            }
+
+            //string queryUpdate = @"UPDATE [Exam] set [State] = @State where Id = @ExamId";
+            //using (var connection = this.context.CreateConnection())
+            //{
+            //    var parameters = new
+            //    {
+            //        ExamId = examId,
+            //        State = "published and noted"
+            //    };
+
+            //    var response = await connection.QueryFirstOrDefaultAsync<Exam>(queryUpdate, parameters);
+            //}
+
+            return true;
+        }
     }
 }

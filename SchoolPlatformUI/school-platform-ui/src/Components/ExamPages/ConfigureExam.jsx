@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './examPages.css';
 
 const ConfigureExam = () => {
@@ -7,6 +7,7 @@ const ConfigureExam = () => {
     const queryParams = new URLSearchParams(location.search);
     const subjectId = queryParams.get('subjectId');
     const examId = queryParams.get('id');
+    const navigate = useNavigate();
 
     const [examDetails, setExamDetails] = useState({
         Title: '',
@@ -49,12 +50,23 @@ const ConfigureExam = () => {
                 Title: examData.Title || '',
                 Description: examData.Description || '',
                 Duration: examData.Duration || '',
-                StartedOn: examData.StartedOn || ''
+                StartedOn: formatDateForInput(examData.StartedOn) || '',
+                ClosedOn: examData.ClosedOn || ''
             });
             setQuestions(examData.Questions || []); // Ensure questions is an array
         } catch (error) {
             console.error('Error fetching exam data:', error);
         }
+    };
+
+    const formatDateForInput = (dateString) => {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        return `${year}-${month}-${day}T${hours}:${minutes}`;
     };
 
     const handleExamDetailsChange = (e) => {
@@ -91,6 +103,16 @@ const ConfigureExam = () => {
         setShowAddQuestion(false);
     };
 
+    const formatDateTimeForServer = (dateString) => {
+        const options = {
+            year: 'numeric', month: '2-digit', day: '2-digit',
+            hour: '2-digit', minute: '2-digit', second: '2-digit',
+            hour12: true
+        };
+        const date = new Date(dateString);
+        return date.toLocaleString('en-US', options).replace(',', '');
+    };
+
     const handleSubmitAsDraft = async (e) => {
         e.preventDefault();
         const examData = {
@@ -99,7 +121,7 @@ const ConfigureExam = () => {
             Title: examDetails.Title,
             Description: examDetails.Description,
             Duration: examDetails.Duration,
-            StartedOn: examDetails.StartedOn,
+            StartedOn: formatDateTimeForServer(examDetails.StartedOn),
             State: 'draft',
             Questions: questions.map((q, index) => ({
                 Id: q.Id || index + 1,
@@ -114,7 +136,6 @@ const ConfigureExam = () => {
         };
 
         try {
-            console.log('abc' + examData);
             const response = await fetch(`http://localhost:5271/api/Exam/InsertExam`, {
                 method: 'POST',
                 headers: {
@@ -128,11 +149,11 @@ const ConfigureExam = () => {
             }
 
             alert('Exam configured successfully!');
+            navigate(`/course-exams-for-teacher?id=${subjectId}`); // Navigate to the previous page after closing the alert
         } catch (error) {
             console.error('Error configuring exam:', error);
         }
     };
-
 
     const handleSubmitAndPublish = async (e) => {
         e.preventDefault();
@@ -156,7 +177,7 @@ const ConfigureExam = () => {
             Title: examDetails.Title,
             Description: examDetails.Description,
             Duration: examDetails.Duration,
-            StartedOn: examDetails.StartedOn,
+            StartedOn: formatDateTimeForServer(examDetails.StartedOn),
             State: 'published',
             Questions: questions.map((q, index) => ({
                 Id: q.Id || index + 1, // Use existing question id or assign a temporary one
@@ -184,6 +205,7 @@ const ConfigureExam = () => {
             }
 
             alert('Exam configured successfully!');
+            navigate(`/course-exams-for-teacher?id=${subjectId}`); // Navigate to the previous page after closing the alert
         } catch (error) {
             console.error('Error configuring exam:', error);
         }
@@ -287,10 +309,10 @@ const ConfigureExam = () => {
                 </div>
                 {questions.map((question, qIndex) => (
                     <div key={qIndex} className="exam-question-item">
-                        <h2>Question {qIndex + 1} ({question.Points} p)</h2>
+                        <h2 className='exam-p'>Question {qIndex + 1} ({question.Points} p)</h2>
                         {editIndex === qIndex ? (
                             <div>
-                                <label>
+                                <label className='exam-p'>
                                     Question:
                                     <input
                                         className="question-text"
@@ -301,7 +323,7 @@ const ConfigureExam = () => {
                                         required
                                     />
                                 </label>
-                                <label>
+                                <label className='exam-p'>
                                     Points:
                                     <input
                                         className="question-points"
@@ -341,7 +363,7 @@ const ConfigureExam = () => {
                             </div>
                         ) : (
                             <div>
-                                <p>{question.Text}</p>
+                                <p className='exam-p'>{question.Text}</p>
                                 <ul className="exam-ul">
                                     {question.Answers.map((answer, aIndex) => (
                                         <li key={aIndex}>

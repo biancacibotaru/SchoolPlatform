@@ -23,4 +23,14 @@
         public int QuestionId { get; set; }
         public List<string> Answers{ get; set; }
     }
+
+    public class ExamResult
+    {
+        public int UserId { get; set; }
+        public int ExamId { get; set; }
+        public float? TotalPoints { get; set; }
+        public string Firstname { get; set; }
+        public string Lastname { get; set; }
+        public string Email { get; set; }
+    }
 }

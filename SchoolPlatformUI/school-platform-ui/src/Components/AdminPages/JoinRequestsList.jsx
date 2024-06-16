@@ -44,32 +44,42 @@ const JoinRequestsList = () => {
 
     return (
         <div className="admin-page">
-            <h1>Join Requests List</h1>
+            <h1 className='title'>Join Requests List</h1>
             <div className="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Requester Name</th>
-                            <th>Classroom</th>
-                            <th>Proof</th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {requests.map((req, index) => (
-                            <tr key={index}>
-                                <td>{index + 1}</td>
-                                <td>{req.Firstname + " " + req.Lastname}</td>
-                                <td>{req.Code}</td>
-                                <td>File</td>
-                                <td><button onClick={() => updateJoinRequestStatus(req.StudentId, 'accepted')}>Accept</button></td>
-                                <td><button onClick={() => updateJoinRequestStatus(req.StudentId, 'rejected')}>Reject</button></td>
+                {requests.length === 0 ? (
+                    <h2 className='no-join-requests'>No join requests.</h2>
+                ) : (
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Requester Name</th>
+                                <th>Classroom</th>
+                                <th>Proof</th>
+                                <th></th>
+                                <th></th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {requests.map((req, index) => (
+                                <tr key={index}>
+                                    <td>{index + 1}</td>
+                                    <td>{req.Firstname + " " + req.Lastname}</td>
+                                    <td>{req.Code}</td>
+                                    <td>
+                                        <p>
+                                            <a className='proof-file' href={`data:${req.Content};base64,${req.Content}`} download={req.FileName}>
+                                                 👁️ Proof file
+                                            </a>
+                                        </p>
+                                    </td>
+                                    <td><button className='decision-join' onClick={() => updateJoinRequestStatus(req.StudentId, 'accepted')}>Accept</button></td>
+                                    <td><button className='decision-join' onClick={() => updateJoinRequestStatus(req.StudentId, 'rejected')}>Reject</button></td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                )}
             </div>
         </div>
     );

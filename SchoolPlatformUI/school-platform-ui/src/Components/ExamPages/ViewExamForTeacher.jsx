@@ -37,12 +37,22 @@ const ViewExamForTeacher = () => {
                 Title: examData.Title || '',
                 Description: examData.Description || '',
                 Duration: examData.Duration || '',
-                StartedOn: examData.StartedOn || ''
+                StartedOn: formatDateForInput(examData.StartedOn) || ''
             });
             setQuestions(examData.Questions || []); // Ensure questions is an array
         } catch (error) {
             console.error('Error fetching exam data:', error);
         }
+    };
+
+    const formatDateForInput = (dateString) => {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        return `${year}-${month}-${day}T${hours}:${minutes}`;
     };
 
     return (
@@ -98,8 +108,8 @@ const ViewExamForTeacher = () => {
             </div>
             {questions.map((question, qIndex) => (
                 <div key={qIndex} className="exam-question-item">
-                    <h2>Question {qIndex + 1} ({question.Points} p)</h2>
-                    <p>{question.Text}</p>
+                    <h2 className='exam-p'>Question {qIndex + 1} ({question.Points} p)</h2>
+                    <p className='exam-p'>{question.Text}</p>
                     <ul className="exam-ul">
                         {question.Answers.map((answer, aIndex) => (
                             <li key={aIndex}>
@@ -111,6 +121,7 @@ const ViewExamForTeacher = () => {
                             </li>
                         ))}
                     </ul>
+                    <br />
                 </div>
             ))}
         </div>

@@ -47,7 +47,7 @@ const TeachersListPage = () => {
 
   return (
     <div className="admin-page">
-      <h1>All Teachers</h1>
+      <h1 className='title'>All Teachers</h1>
       <div className="table-container">
         <table>
           <thead>
@@ -72,7 +72,7 @@ const TeachersListPage = () => {
       </div>
       <div>
         {!showPopup && (
-          <button className="add-teacher-button" onClick={() => setShowPopup(true)}>+</button>
+          <button className="add-item-button" onClick={() => setShowPopup(true)}>+</button>
         )}
         {showPopup && (
           <div className="popup">

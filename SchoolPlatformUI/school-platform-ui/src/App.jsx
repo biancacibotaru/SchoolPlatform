@@ -4,6 +4,7 @@ import Signup from './Components/LoginSignup/Signup';
 import StudentCourses from './Components/StudentPages/StudentCourses';
 import TeacherCourses from './Components/TeacherPages/TeacherCourses';
 import StudentExams from './Components/StudentPages/StudentExams';
+import StudentHomeworks from './Components/StudentPages/StudentHomeworks';
 import ConfigureExam from './Components/ExamPages/ConfigureExam';
 import StudentGrades from './Components/StudentPages/StudentGrades';
 import StudentJoinClass from './Components/StudentPages/StudentJoinClass';
@@ -25,6 +26,7 @@ import CourseHomeworks from './Components/CoursePages/HomeworksPage';
 import ViewExamForStudent from './Components/ExamPages/ViewExamForStudent';
 import ViewExamForTeacher from './Components/ExamPages/ViewExamForTeacher';
 import ViewExamResultForStudent from './Components/ExamPages/ViewExamResultForStudent';
+import ExamResults from './Components/ExamPages/ExamResults';
 import Sidebar from './Components/Sidebar/Sidebar';
 import { BrowserRouter as Router, Route, Routes, Outlet } from 'react-router-dom';
 
@@ -84,6 +86,7 @@ const App = () => {
         <Route path="/student-courses" element={<StudentCourses />} />
         <Route path="/student-grades" element={<StudentGrades />} />
         <Route path="/student-exams" element={<StudentExams />} />
+        <Route path="/student-homeworks" element={<StudentHomeworks />} />
         <Route path="/student-join-class" element={<StudentJoinClass />} />
       </Route>
       <Route element={<AdminPages />}>
@@ -103,6 +106,7 @@ const App = () => {
       <Route path="/course-presentation-for-teacher" element={<CoursePresentationForTeacher />} />
       <Route path="/course-grades" element={<CourseGrades />} />
       <Route path="/course-exams" element={<CourseExams />} />
+      <Route path="/exam-students-results" element={<ExamResults />} />
       <Route path="/course-exams-for-teacher" element={<CourseExamsForTeacher />} />
       <Route path="/course-homeworks-for-teacher" element={<CourseHomeworksForTeacher />} />
       <Route path="/course-homeworks" element={<CourseHomeworks />} />

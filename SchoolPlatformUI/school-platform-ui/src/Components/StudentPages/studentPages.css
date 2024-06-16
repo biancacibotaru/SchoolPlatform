@@ -62,3 +62,56 @@
   font-size: 2.5rem;
   color: white;
 }
+
+.join-in-class {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.join-in-class select, 
+.join-in-class input[type="file"], 
+.join-in-class button {
+  margin: 10px 0;
+  padding: 10px;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.join-in-class select {
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.join-in-class input[type="file"] {
+  cursor: pointer;
+}
+
+.join-in-class button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.join-in-class button:hover {
+  background-color: #0056b3;
+}
+
+.join-in-class p {
+  color: #e74c3c;
+  text-align: center;
+}
+
+.join-class-title {
+  text-align: center;
+}
+
+.join-request-status {
+  text-align: center;
+  margin-top: 50px;
+}

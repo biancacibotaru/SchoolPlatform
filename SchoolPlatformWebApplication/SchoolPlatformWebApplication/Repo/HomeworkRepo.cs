@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using SchoolPlatformWebApplication.Models;
 using SchoolPlatformWebApplication.Models.Data;
+using System.Globalization;
 
 namespace SchoolPlatformWebApplication.Repo
 {
@@ -118,6 +119,52 @@ namespace SchoolPlatformWebApplication.Repo
                     return false;
                 }
             }
+        }
+
+        public async Task<List<Homework>> GetFutureHomeworksByClass(string classCode, int studentId)
+        {
+            List<Homework> homeworks = new List<Homework>();
+            List<Homework> futureHomeworks = new List<Homework>();
+
+            string query = @"SELECT DISTINCT Homework.Id, Subject.Name as Description, Title, StartDate, Deadline FROM [Homework] INNER JOIN Subject ON Homework.SubjectId = Subject.Id INNER JOIN Class ON Class.Id = Subject.ClassId LEFT JOIN StudentHomework ON StudentHomework.HomeworkId = Homework.Id AND StudentHomework.StudentId = @StudentId WHERE Class.Code = @ClassCode AND StudentHomework.Id IS NULL;";
+            using (var connection = this.context.CreateConnection())
+            {
+                var parameters = new
+                {
+                    ClassCode = classCode,
+                    StudentId = studentId
+                };
+
+                var response = await connection.QueryAsync<Homework>(query, parameters);
+
+                homeworks = response.ToList();
+
+                string dateFormat = "M/d/yyyy h:mm:ss tt";
+
+                foreach (var homework in homeworks)
+                {
+                    if (DateTime.TryParseExact(homework.Deadline, dateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dateTime))
+                    {
+                        if (dateTime > DateTime.Now)
+                        {
+                            futureHomeworks.Add(homework);
+                        }
+                    }
+                }
+            }
+
+            return futureHomeworks;
+        }
+
+        public async Task<bool> CheckIfFutureHomeworksByClass(string classCode, int studentId)
+        {
+            var futureHomeworks = await this.GetFutureHomeworksByClass(classCode, studentId);
+            if (futureHomeworks.Count > 0)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

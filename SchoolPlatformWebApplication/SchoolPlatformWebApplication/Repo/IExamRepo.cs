@@ -9,7 +9,11 @@ namespace SchoolPlatformWebApplication.Repo
         Task<List<Exam>> GetAllExamsBySubject(int subjectId);
         Task<List<Exam>> GetAllExamsBySubjectForStudent(int subjectId);
         Task<Exam> GetExam(int id);
+        Task<List<Exam>> GetFutureExamsByClass(string classCode);
+        Task<bool> CheckIfFutureExamsByClass(string classCode);
+        Task<List<ExamResult>> GetExamResultsForAllStudents(int examId);
         Task<int> InsertStudentExam(StudentExam studentExam);
+        Task<bool> InsertExamGradeForAbsentStudents(int examId, int subjectId);
         Task SetTotalPoints(StudentExam studentExam, float totalPoints);
         Task InsertStudentAnswer(StudentAnswer studentAnswer);
         Task<Question> GetQuestionById(int questionId);

@@ -53,11 +53,11 @@ const ViewExamResultForStudent = () => {
     const totalPoints = userResponses.reduce((total, response) => total + (response.StudentPoints || 0), 0) + 1;
 
     return (
-        <div className="exam-result-content">
+        <div className="exam-content-course">
             <h1 className="title">Exam Results</h1>
-            <h2 className='total-points'>Grade: {totalPoints}</h2>
+            <h2 className='total-points'>Grade: {totalPoints.toFixed(2)}</h2>
             <div className='colors-legend'>
-                <h4>Legend: <span className="correct">Correct </span><span className="incorrect"> Incorrect </span><span className="missed"> Missed </span></h4>
+                <h4 className='legend'>Legend: <span className="correct">Correct </span><span className="incorrect"> Incorrect </span><span className="missed"> Missed </span></h4>
             </div>
 
             {examDetails.Questions ? (
@@ -84,6 +84,7 @@ const ViewExamResultForStudent = () => {
                                         </li>
                                     ))}
                                 </ul>
+                                <br />
                             </li>
                         );
                     })}

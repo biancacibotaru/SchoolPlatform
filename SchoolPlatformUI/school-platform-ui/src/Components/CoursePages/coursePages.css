@@ -345,13 +345,19 @@ button {
 
 .view-submissions {
     position: absolute;
-    top: 5px;
+    top: 2px;
     right: 10px;
-    background-color: #FF8400;
+    background-color: #006eff;
     cursor: pointer;
     font-weight: bold;
-    padding: 5px;
     border-radius: 5px;
+    color: white;
+    padding: 7px 7px;
+    border: none;
+}
+
+.view-submissions:hover {
+    background-color: #567eb3;
 }
 
 /* Stilizare buton pentru vizualizarea temei profesorului */
@@ -421,11 +427,44 @@ button {
 }
 
 .grade-button{
-    background-color: #b9d2ed;
+    background-color: #80b9f6;
     border-radius: 2px;
     padding: 5px;
     cursor: pointer;
     margin-top: -5px;
+    border: none;
 }
 
+.new-exam-button {
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    font-size: 1em;
+    color:white;
+    font-weight: bold;
+    background-color: #2067b2;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-decoration: none;
+  }
+  
+  .new-exam-button:hover {
+    background-color: #3b618a;
+  }
 
+  .no-items {
+    color:white;
+  }
+
+  .exam-btns {
+    text-decoration: none;
+    color:#074588;
+    font-weight: bold;
+  }
+
+.no-items-with-space{
+    color:white;
+    margin-top: 50px;
+}

@@ -66,7 +66,8 @@ const CoursePresentationForTeacher = () => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            window.location.href = window.location.href;
+            // Reîncărcați pagina după adăugarea cu succes a unui nou material
+            window.location.reload();
         } catch (error) {
             console.error('Error adding new material:', error);
         }
@@ -113,29 +114,33 @@ const CoursePresentationForTeacher = () => {
                     </Form>
                 </div>
             )}
-            {Object.keys(groupedMaterials).map((date, index) => (
-                <div key={date} className="material-group">
-                    <h2 className="material-date">{date}</h2>
-                    {groupedMaterials[date].map((material, materialIndex) => {
-                        // Crearea URL-ului data-uri pentru descărcare/vizualizare
-                        const fileUrl = `data:application/octet-stream;base64,${material.FileContent}`;
-                        
-                        return (
-                            <div key={material.id} className="material-item">
-                                <h2 className="material-title">{material.Title}</h2>
-                                <p className="material-description">{material.Description}</p>
-                                {material.FileName && (
-                                    <a href={fileUrl} download={material.FileName} className="material-download">
-                                       {material.FileName}
-                                    </a>
-                                )}
-                                {/* Adăugarea unei linii orizontale între materiale, cu excepția ultimului material din grup */}
-                                {materialIndex < groupedMaterials[date].length - 1 && <hr className="material-divider" />}
-                            </div>
-                        );
-                    })}
-                </div>
-            ))}
+            {Object.keys(groupedMaterials).length === 0 ? (
+                <h2 className="no-items">No study materials yet.</h2>
+            ) : (
+                Object.keys(groupedMaterials).map((date, index) => (
+                    <div key={date} className="material-group">
+                        <h2 className="material-date">{date}</h2>
+                        {groupedMaterials[date].map((material, materialIndex) => {
+                            // Crearea URL-ului data-uri pentru descărcare/vizualizare
+                            const fileUrl = `data:application/octet-stream;base64,${material.FileContent}`;
+                            
+                            return (
+                                <div key={material.id} className="material-item">
+                                    <h2 className="material-title">{material.Title}</h2>
+                                    <p className="material-description">{material.Description}</p>
+                                    {material.FileName && (
+                                        <a href={fileUrl} download={material.FileName} className="material-download">
+                                           {material.FileName}
+                                        </a>
+                                    )}
+                                    {/* Adăugarea unei linii orizontale între materiale, cu excepția ultimului material din grup */}
+                                    {materialIndex < groupedMaterials[date].length - 1 && <hr className="material-divider" />}
+                                </div>
+                            );
+                        })}
+                    </div>
+                ))
+            )}
         </div>
     );
 };

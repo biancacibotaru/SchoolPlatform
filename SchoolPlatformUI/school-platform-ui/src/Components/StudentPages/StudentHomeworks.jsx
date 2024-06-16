@@ -1,25 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 
-const StudentExams = () => {
-    const [exams, setExams] = useState([]);
+const StudentHomeworks = () => {
+    const [homeworks, setHomework] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const fetchExams = async () => {
+        const fetchHomeworks = async () => {
             try {
                 const userDataFromCookie = Cookies.get('loggedIn');
                 const userData = JSON.parse(userDataFromCookie);
                 const classCode = userData.Class; 
-                const response = await fetch(`http://localhost:5271/api/Exam/GetFutureExamsByClass?classCode=${classCode}`);
+                const studentId = userData.Id; 
+                const response = await fetch(`http://localhost:5271/api/Homework/GetFutureHomeworksByClass?classCode=${classCode}&studentId=${studentId}`);
 
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
 
                 const data = await response.json();
-                setExams(data);
+                setHomework(data);
             } catch (error) {
                 setError(error);
             } finally {
@@ -27,7 +28,7 @@ const StudentExams = () => {
             }
         };
 
-        fetchExams();
+        fetchHomeworks();
     }, []);
 
     if (loading) return <div>Loading...</div>;
@@ -35,26 +36,26 @@ const StudentExams = () => {
 
     return (
         <div className="content-course">
-            <h1 className="title">Future Exams</h1>
-            {exams.length === 0 ? (
-                <h2 className='no-items-with-space'>No future exams.</h2>
+            <h1 className="title">TO DO Homeworks</h1>
+            {homeworks.length === 0 ? (
+                <h2 className='no-items-with-space'>No homeworks to do.</h2>
             ) : (
             <table>
                 <thead>
                     <tr>
                         <th>Subject</th>
                         <th>Title</th>
-                        <th>Duration (min)</th>
                         <th>Start Date</th>
+                        <th>Deadline</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {exams.map((exam, index) => (
+                    {homeworks.map((homework, index) => (
                         <tr key={index}>
-                            <td>{exam.Description}</td>
-                            <td>{exam.Title}</td>
-                            <td>{exam.Duration}</td>
-                            <td>{exam.StartedOn}</td>
+                            <td>{homework.Description}</td>
+                            <td>{homework.Title}</td>
+                            <td>{homework.StartDate}</td>
+                            <td>{homework.Deadline}</td>
                         </tr>
                     ))}
                 </tbody>
@@ -64,4 +65,4 @@ const StudentExams = () => {
     );
 };
 
-export default StudentExams;
+export default StudentHomeworks;

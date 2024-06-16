@@ -21,7 +21,7 @@ const StudentJoinClass = () => {
       try {
         // Verificați dacă userId este disponibil
         if (!userId) return;
-        
+
         const response = await fetch("http://localhost:5271/api/class/getallclasses");
         if (response.ok) {
           const data = await response.json();
@@ -67,17 +67,17 @@ const StudentJoinClass = () => {
         console.log("There is already a join request in check status.");
         return;
       }
-  
+
       const formData = new FormData();
       formData.append("userId", userId);
       formData.append("classId", selectedClass);
       formData.append("file", file);
-  
+
       const response = await fetch("http://localhost:5271/api/JoinRequest/InsertJoinRequest", {
         method: 'POST',
         body: formData,
       });
-  
+
       if (response.ok) {
         console.log("Class joined successfully!");
         // Refresh the page after successful join request
@@ -89,29 +89,31 @@ const StudentJoinClass = () => {
       console.error("Error joining class:", error);
     }
   };
-  
+
 
   return (
     <div className="container">
-      <h2>Join a Class</h2>
+      <h2 className="join-class-title">Join in a Classroom</h2>
       {existingRequest && existingRequest.Status === 'in check' && (
-        <p>You have a join request in check status. Please wait.</p>
+        <h4 className="join-request-status">You have a join request in check status. Please wait.</h4>
       )}
       {existingRequest && existingRequest.Status === 'rejected' && (
-        <p>Your join request was rejected. Please contact the administrator.</p>
+        <h4 className="join-request-status">Your join request was rejected. Please contact the administrator.</h4>
       )}
       {(!existingRequest) && (
         <>
-          <select value={selectedClass} onChange={(e) => setSelectedClass(e.target.value)}>
-            <option value="">Select a Class</option>
-            {availableClasses.map((classItem) => (
-              <option key={classItem.Id} value={classItem.Id}>
-                {classItem.Code}
-              </option>
-            ))}
-          </select>
-          <input type="file" onChange={handleFileChange} />
-          <button onClick={handleJoinClass}>Join Class</button>
+          <div className='join-in-class'>
+            <select value={selectedClass} onChange={(e) => setSelectedClass(e.target.value)}>
+              <option value="">Select a classroom</option>
+              {availableClasses.map((classItem) => (
+                <option key={classItem.Id} value={classItem.Id}>
+                  {classItem.Code}
+                </option>
+              ))}
+            </select>
+            <input type="file" onChange={handleFileChange} />
+            <button onClick={handleJoinClass}>Join Class</button>
+          </div>
         </>
       )}
     </div>

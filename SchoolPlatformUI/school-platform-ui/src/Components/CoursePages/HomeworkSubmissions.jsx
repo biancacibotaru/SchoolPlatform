@@ -66,46 +66,51 @@ const HomeworkSubmission = () => {
     return (
         <div className="content-course">
             <h1 className='title'>Student Homework Submissions</h1>
-            <Table bordered>
-                <thead>
-                    <tr>
-                        <th>Student</th>
-                        <th>Email</th>
-                        <th>Homework</th>
-                        <th>Submission Date</th>
-                        <th>Grade</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {studentHomework.map((homework, index) => (
-                        <tr key={index}>
-                            <td className="student-name">{homework.FirstName} {homework.LastName}</td>
-                            <td>{homework.Email}</td>
-                            <td className="homework-file">
-                                {homework.FileName ? (
-                                    <a className="download-button" href={`data:${homework.ContentType};base64,${homework.Content}`} download={homework.FileName}>
-                                        👁️{homework.FileName}
-                                    </a>
-                                ) : (
-                                    'No file'
-                                )}
-                            </td>
-                            <td>{new Date(homework.SubmitDate).toLocaleString()}</td>
-                            <td>
-                                {homework.Grade ? (
-                                    homework.Grade
-                                ) : (
-                                    <p>-</p>
-                                )}
-                            </td>
-                            {homework.Grade ? 
-                            (<td><button className='grade-button' onClick={() => handleGradeUpdate(homework, true)}>Update</button></td>) :
-                            (<td><button className='grade-button' onClick={() => handleGradeUpdate(homework, false)}>Grade</button></td> )}
+            <br />
+            {studentHomework.length == 0 ? (
+                <h2 className='no-items'>No submissions yet.</h2>
+            ) : (
+                <Table className='table-submissions' bordered>
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Email</th>
+                            <th>Homework</th>
+                            <th>Submission Date</th>
+                            <th>Grade</th>
+                            <th></th>
                         </tr>
-                    ))}
-                </tbody>
-            </Table>
+                    </thead>
+                    <tbody>
+                        {studentHomework.map((homework, index) => (
+                            <tr key={index}>
+                                <td className="student-name">{homework.FirstName} {homework.LastName}</td>
+                                <td>{homework.Email}</td>
+                                <td className="homework-file">
+                                    {homework.FileName ? (
+                                        <a className="download-button" href={`data:${homework.ContentType};base64,${homework.Content}`} download={homework.FileName}>
+                                            👁️{homework.FileName}
+                                        </a>
+                                    ) : (
+                                        'No file'
+                                    )}
+                                </td>
+                                <td>{new Date(homework.SubmitDate).toLocaleString()}</td>
+                                <td>
+                                    {homework.Grade ? (
+                                        homework.Grade
+                                    ) : (
+                                        <p>-</p>
+                                    )}
+                                </td>
+                                {homework.Grade ?
+                                    (<td><button className='grade-button' onClick={() => handleGradeUpdate(homework, true)}>Update</button></td>) :
+                                    (<td><button className='grade-button' onClick={() => handleGradeUpdate(homework, false)}>Grade</button></td>)}
+                            </tr>
+                        ))}
+                    </tbody>
+                </Table>
+            )}
         </div>
     );
 };

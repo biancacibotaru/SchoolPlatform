@@ -33,7 +33,7 @@ const AddTeacherForm = ({ onAddTeacher }) => {
   };
 
   return (
-    <div className="add-teacher-form-container">
+    <div className="add-item-form-container">
     {error && <span className="error-message">{error}</span>}
       <form onSubmit={handleSubmit}>
         <input
@@ -60,7 +60,7 @@ const AddTeacherForm = ({ onAddTeacher }) => {
           value={newTeacherPassword}
           onChange={(e) => setNewTeacherPassword(e.target.value)}
         />
-        <button className="new-teacher-button" type="submit">Add</button>
+        <button className="new-item-button" type="submit">Add</button>
       </form>
     </div>
   );

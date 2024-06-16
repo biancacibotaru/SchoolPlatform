@@ -120,6 +120,66 @@ namespace SchoolPlatformWebApplication.Controllers
             }
         }
 
+        [HttpGet("GetFutureExamsByClass")]
+        public async Task<IActionResult> GetFutureExamsByClass([FromQuery] string classCode)
+        {
+            try
+            {
+                var result = await this.repo.GetFutureExamsByClass(classCode);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Get future exams error: {ex.Message}");
+            }
+        }
+
+        [HttpGet("CheckIfFutureExamsByClass")]
+        public async Task<IActionResult> CheckIfFutureExamsByClass([FromQuery] string classCode)
+        {
+            try
+            {
+                var result = await this.repo.CheckIfFutureExamsByClass(classCode);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Get future exams error: {ex.Message}");
+            }
+        }
+
+        [HttpGet("GetExamResultsForAllStudents")]
+        public async Task<IActionResult> GetExamResultsForAllStudents([FromQuery] int examId)
+        {
+            try
+            {
+                var result = await this.repo.GetExamResultsForAllStudents(examId);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Get future exams error: {ex.Message}");
+            }
+        }
+
+        [HttpPost("InsertExamGradeForAbsentStudents")]
+        public async Task<IActionResult> InsertGradeForAbsentStudents([FromQuery] int examId, [FromQuery] int subjectId)
+        {
+            try
+            {
+                bool result = await this.repo.InsertExamGradeForAbsentStudents(examId, subjectId);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Grade insert error: {ex.Message}");
+            }
+        }
+
         [HttpPost("SubmitExam")]
         public async Task<IActionResult> SubmitExam([FromBody] StudentResponse studentResponse)
         {
@@ -156,12 +216,12 @@ namespace SchoolPlatformWebApplication.Controllers
                 await repo.InsertStudentAnswer(studentAnswer);
             }
 
-            await repo.SetTotalPoints(studentExam, totalPoints + 1);
+            await repo.SetTotalPoints(studentExam, (float)Math.Round(totalPoints + 1, 2));
 
             int subjectId = await repo.GetSubjectIdByExam(studentResponse.ExamId);
             Grade newGrade = new Grade()
             {
-                Points = totalPoints + 1,
+                Points = (float)Math.Round(totalPoints + 1, 2),
                 StudentId = studentResponse.StudentId,
                 SubjectId = subjectId,
                 ExamId = studentResponse.ExamId,
@@ -187,6 +247,7 @@ namespace SchoolPlatformWebApplication.Controllers
             var incorrectSelected = studentAnswers.Except(correctAnswers).Count();
 
             var pointsResult = Math.Max(0, correctSelected * pointsPerCorrectAnswer - incorrectSelected * pointsPerCorrectAnswer);
+            pointsResult = (float)Math.Round(pointsResult, 2);
 
             return pointsResult;
         }

@@ -4,6 +4,7 @@ import AddSubjectForm from './AddSubjectForm';
 
 const SubjectsList = () => {
     const [classes, setClasses] = useState([]);
+    const [selectedClass, setSelectedClass] = useState(null);
 
     useEffect(() => {
         const fetchClasses = async () => {
@@ -22,51 +23,52 @@ const SubjectsList = () => {
         fetchClasses();
     }, []);
 
+    const handleSelectClass = (classId) => {
+        setSelectedClass(classId === selectedClass ? null : classId);
+    };
+
     return (
         <div className="admin-page">
-            <h1>All Subjects</h1>
-            {classes.map((classItem, index) => (
-                <ClassSubjects key={index} classItem={classItem} />
-            ))}
+            <h1 className='title'>All Subjects</h1>
+            <div className="class-buttons-container">
+                {classes.map((classItem, index) => (
+                    <button
+                        key={index}
+                        className={`class-name ${classItem.Id === selectedClass ? 'active' : ''}`}
+                        onClick={() => handleSelectClass(classItem.Id)}
+                    >
+                        {classItem.Code} {selectedClass === classItem.Id ? '▲' : '▼'}
+                    </button>
+                ))}
+            </div>
+            {selectedClass && (
+                <ClassSubjects classId={selectedClass} />
+            )}
         </div>
     );
 };
 
-const ClassSubjects = ({ classItem }) => {
+const ClassSubjects = ({ classId }) => {
     const [subjects, setSubjects] = useState([]);
-    const [showTable, setShowTable] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
     const [popupMessage, setPopupMessage] = useState('');
-    const [selectedClassName, setSelectedClassName] = useState('');
 
     useEffect(() => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const classFromUrl = urlParams.get('class');
-
-        if (classFromUrl && classFromUrl === classItem.Code) {
-            setSelectedClassName(classFromUrl);
-            setShowTable(true);
-        }
-    }, [classItem.Code]);
-
-    useEffect(() => {
-        if (showTable && classItem.Code === selectedClassName) {
-            const fetchSubjectsByClass = async () => {
-                try {
-                    const response = await fetch(`http://localhost:5271/api/subject/getallsubjectsbyclass/${classItem.Id}`);
-                    if (!response.ok) {
-                        throw new Error('Failed to fetch subjects');
-                    }
-                    const data = await response.json();
-                    setSubjects(data);
-                } catch (error) {
-                    console.error('Error fetching subjects:', error);
+        const fetchSubjectsByClass = async () => {
+            try {
+                const response = await fetch(`http://localhost:5271/api/subject/getallsubjectsbyclass/${classId}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch subjects');
                 }
-            };
+                const data = await response.json();
+                setSubjects(data);
+            } catch (error) {
+                console.error('Error fetching subjects:', error);
+            }
+        };
 
-            fetchSubjectsByClass();
-        }
-    }, [classItem.Code, classItem.Id, selectedClassName, showTable]);
+        fetchSubjectsByClass();
+    }, [classId]);
 
     const handleAddSubject = async (newSubjectData) => {
         try {
@@ -79,69 +81,48 @@ const ClassSubjects = ({ classItem }) => {
             });
             setPopupMessage(`Subject added successfully for class ${newSubjectData.Class}!`);
             setShowPopup(true);
-
-            setSelectedClassName(newSubjectData.Class);
-            setShowTable(true);
-
-            // Actualizare URL pentru a include clasa selectată
-            const searchParams = new URLSearchParams({ class: newSubjectData.Class });
-            window.history.pushState(null, '', `${window.location.pathname}?${searchParams}`);
         } catch (error) {
             console.error('Error adding subject:', error);
         }
     };
 
     return (
-        <div className="class-subjects">
-            <button className="class-name" onClick={() => {
-                setShowTable(!showTable);
-                setSelectedClassName(classItem.Code);
-                // Actualizare URL pentru a include clasa selectată
-                const searchParams = new URLSearchParams({ class: classItem.Code });
-                window.history.pushState(null, '', `${window.location.pathname}?${searchParams}`);
-            }}>
-                {classItem.Code}
-            </button>
-
-            {showTable && classItem.Code === selectedClassName && (
-                <div>
-                    <div className="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Subject</th>
-                                    <th>Teacher</th>
-                                    <th>Hours per week</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {subjects.map((subject, index) => (
-                                    <tr key={index}>
-                                        <td>{subject.Name}</td>
-                                        <td>{subject.TeacherFirstname} {subject.TeacherLastname}</td>
-                                        <td>{subject.HoursPerWeek}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+        <div>
+            <div className="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Subject</th>
+                            <th>Teacher</th>
+                            <th>Hours/ week</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {subjects.map((subject, index) => (
+                            <tr key={index}>
+                                <td>{subject.Name}</td>
+                                <td>{subject.TeacherFirstname} {subject.TeacherLastname}</td>
+                                <td>{subject.HoursPerWeek}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                {!showPopup && (
+                    <button className="add-item-button" onClick={() => setShowPopup(true)}>+ Subject</button>
+                )}
+                {showPopup && (
+                    <div className="popup">
+                        <div className="popup-message">{popupMessage}</div>
+                        <a href="/admin-subjects-list" className="close-button">X</a>
+                        <AddSubjectForm
+                            onAddSubject={handleAddSubject}
+                            selectedClassName={classId} 
+                        />
                     </div>
-                    <div>
-                        {!showPopup && (
-                            <button className="add-subject-button" onClick={() => setShowPopup(true)}>Add Subject</button>
-                        )}
-                        {showPopup && (
-                            <div className="popup">
-                                <a href={`/admin-subjects-list?class=${selectedClassName}`} className="close-button">X</a>
-                                <div className="popup-message">{popupMessage}</div>
-                                <AddSubjectForm
-                                    onAddSubject={handleAddSubject}
-                                    selectedClassName={selectedClassName}
-                                />
-                            </div>
-                        )}
-                    </div>
-                </div>
-            )}
+                )}
+            </div>
         </div>
     );
 };

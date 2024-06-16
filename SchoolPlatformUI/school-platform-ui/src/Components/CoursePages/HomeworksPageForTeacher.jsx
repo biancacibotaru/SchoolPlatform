@@ -108,12 +108,15 @@ const HomeworksPageForTeacher = () => {
                         <Label className="label-homework" for="file">File</Label>
                         <Input className="file-homework" type="file" name="file" id="file" onChange={handleInputChange} />
                     </FormGroup>
-                    <Button className="button-homework" type="submit" color="primary">Add New Homework</Button>
+                    <Button className="button-homework" type="submit" color="primary">Submit</Button>
                 </Form>
             )}
-            <Button className="button-homework" color="primary" onClick={toggleAddSection}>{showAddSection ? 'Cancel' : 'Add New Homework'}</Button>
+            <Button className="new-material-button" color="primary" onClick={toggleAddSection}>{showAddSection ? 'Cancel' : '+ New Homework'}</Button>
 
             <div className="homeworks-list">
+                {homeworks.length == 0 ? (
+                    <h2 className='no-items'>No homeworks yet.</h2>
+                ) : (<p></p>)}
                 {homeworks.map((homework, index) => (
                     <div key={index} className="homework-item">
                         <h2>{homework.Title}</h2>

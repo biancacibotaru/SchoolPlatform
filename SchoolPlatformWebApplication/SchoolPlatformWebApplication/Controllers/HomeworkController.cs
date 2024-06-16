@@ -154,6 +154,36 @@ namespace SchoolPlatformWebApplication.Controllers
 
             return Ok(homework);
         }
+
+        [HttpGet("GetFutureHomeworksByClass")]
+        public async Task<IActionResult> GetFutureHomeworksByClass([FromQuery] string classCode, [FromQuery] int studentId)
+        {
+            try
+            {
+                var result = await this.repo.GetFutureHomeworksByClass(classCode, studentId);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Get future exams error: {ex.Message}");
+            }
+        }
+
+        [HttpGet("CheckIfFutureHomeworksByClass")]
+        public async Task<IActionResult> CheckIfFutureHomeworksByClass([FromQuery] string classCode, [FromQuery] int studentId)
+        {
+            try
+            {
+                var result = await this.repo.CheckIfFutureHomeworksByClass(classCode, studentId);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Get future exams error: {ex.Message}");
+            }
+        }
     }
 }
 

@@ -117,67 +117,71 @@ const HomeworksPage = () => {
         <div className="content-course">
             <h1 className='title'>Homeworks</h1>
             <div className="homeworks-list">
-                {homeworks.map((homework, index) => (
-                    <div key={index} className="homework-item">
-                        <div className="homework-header">
-                            <h2>{homework.Title}</h2>
-                            {isFutureStartDate(homework.StartDate) && (
-                                <p className="submission-alert">The homework can be loaded in the future</p>
-                            )}
-                        </div>
-                        <hr />
-                        <p>TO DO: {homework.Description}</p>
-                        <p>
-                            <a className="homework-requirement" href={`data:${homework.HomeworkFileContent};base64,${homework.HomeworkFileName}`} download={homework.HomeworkFileName}>
-                                📎{homework.HomeworkFileName}
-                            </a>
-                        </p>
-                        <p>Start Date: {homework.StartDate}</p>
-                        <p>End Date: {homework.Deadline}</p>
-                        {isFutureStartDate(homework.StartDate) ? (
-                            null
-                        ) : homework.SubmitDate ? (
-                            <div>
-                                {homework.Grade ?
-                                    (<p className="submission-alert">Grade: {homework.Grade}</p>) :
-                                    (<p className="submission-alert">Submitted for grading</p>)
-                                }
-                                <hr />
-                                <p>Submitted on: {homework.SubmitDate}</p>
-                                {homework.StudentHomeworkFileName && (
-                                    <p>
-                                        <a className="homework-solved" href={`data:${homework.StudentHomeworkFileContent};base64,${homework.StudentHomeworkFileName}`} download={homework.StudentHomeworkFileName}>
-                                            📝 {homework.StudentHomeworkFileName}
-                                        </a>
-                                    </p>
-
+                {homeworks.length === 0 ? (
+                    <h2 className='no-items-with-space'>No homeworks yet.</h2>
+                ) : (
+                    homeworks.map((homework, index) => (
+                        <div key={index} className="homework-item">
+                            <div className="homework-header">
+                                <h2>{homework.Title}</h2>
+                                {isFutureStartDate(homework.StartDate) && (
+                                    <p className="submission-alert">The homework can be loaded in the future</p>
                                 )}
                             </div>
-                        ) : (
-                            <>
-                                {isWithinDeadline(homework.StartDate, homework.Deadline) ? (
-                                    <>
-                                        <p className="submission-alert">TO DO!</p>
-                                        <Button className="button-view-teacher-homework" onClick={() => toggleUploadSection(homework.HomeworkId)}>⬆️ Upload Homework</Button>
-                                        {showUploadSection[homework.HomeworkId] && (
-                                            <Form onSubmit={(e) => handleStudentFormSubmit(e, homework.HomeworkId)} className="upload-form">
-                                                <FormGroup>
-                                                    <Label for={`studentFile-${index}`}>Browse File</Label>
-                                                    <Input type="file" name="file" id={`studentFile-${index}`} onChange={handleStudentInputChange} required />
-                                                </FormGroup>
-                                                <Button type="submit" className='submit-homework'>Submit</Button>
-                                            </Form>
-                                        )}
-                                    </>
-                                ) : (
-                                    isPastDeadline(homework.Deadline) && (
-                                        <p className="submission-alert">Homework has not been submitted!</p>
-                                    )
-                                )}
-                            </>
-                        )}
-                    </div>
-                ))}
+                            <hr />
+                            <p>TO DO: {homework.Description}</p>
+                            <p>
+                                <a className="homework-requirement" href={`data:${homework.HomeworkFileContentType};base64,${homework.HomeworkFileContent}`} download={homework.HomeworkFileName}>
+                                    📎{homework.HomeworkFileName}
+                                </a>
+                            </p>
+                            <p>Start Date: {homework.StartDate}</p>
+                            <p>End Date: {homework.Deadline}</p>
+                            {isFutureStartDate(homework.StartDate) ? (
+                                null
+                            ) : homework.SubmitDate ? (
+                                <div>
+                                    {homework.Grade ?
+                                        (<p className="submission-alert">Grade: {homework.Grade}</p>) :
+                                        (<p className="submission-alert">Submitted for grading</p>)
+                                    }
+                                    <hr />
+                                    <p>Submitted on: {homework.SubmitDate}</p>
+                                    {homework.StudentHomeworkFileName && (
+                                        <p>
+                                            <a className="homework-solved" href={`data:${homework.StudentHomeworkFileContentType};base64,${homework.StudentHomeworkFileContent}`} download={homework.StudentHomeworkFileName}>
+                                                📝 {homework.StudentHomeworkFileName}
+                                            </a>
+                                        </p>
+
+                                    )}
+                                </div>
+                            ) : (
+                                <>
+                                    {isWithinDeadline(homework.StartDate, homework.Deadline) ? (
+                                        <>
+                                            <p className="submission-alert">TO DO!</p>
+                                            <Button className="button-view-teacher-homework" onClick={() => toggleUploadSection(homework.HomeworkId)}>⬆️ Upload Homework</Button>
+                                            {showUploadSection[homework.HomeworkId] && (
+                                                <Form onSubmit={(e) => handleStudentFormSubmit(e, homework.HomeworkId)} className="upload-form">
+                                                    <FormGroup>
+                                                        <Label for={`studentFile-${index}`}>Browse File</Label>
+                                                        <Input type="file" name="file" id={`studentFile-${index}`} onChange={handleStudentInputChange} required />
+                                                    </FormGroup>
+                                                    <Button type="submit" className='submit-homework'>Submit</Button>
+                                                </Form>
+                                            )}
+                                        </>
+                                    ) : (
+                                        isPastDeadline(homework.Deadline) && (
+                                            <p className="submission-alert">Homework has not been submitted!</p>
+                                        )
+                                    )}
+                                </>
+                            )}
+                        </div>
+                    ))
+                )}
             </div>
         </div>
     );
