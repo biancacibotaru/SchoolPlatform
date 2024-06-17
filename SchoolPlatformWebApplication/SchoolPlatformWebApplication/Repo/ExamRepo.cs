@@ -242,8 +242,8 @@ namespace SchoolPlatformWebApplication.Repo
                     ExamId = studentExam.ExamId,
                     TotalPoints = studentExam.TotalPoints,
                     Status = studentExam.Status,
-                    StartedOn = "2024-05-27",
-                    FinishedOn = "2024-05-27"
+                    StartedOn = DateTime.Now.ToString("M/d/yyyy h:mm:ss tt"),
+                    FinishedOn = DateTime.Now.ToString("M/d/yyyy h:mm:ss tt")
                 };
 
                 var response = await connection.ExecuteScalarAsync<int>(query, parameters);
@@ -416,7 +416,7 @@ namespace SchoolPlatformWebApplication.Repo
 
         public async Task<List<ExamResult>> GetExamResultsForAllStudents(int examId)
         {
-            string query = @"SELECT UC.UserId, ISNULL(SE.ExamId, 0) AS ExamId, SE.TotalPoints, U.Firstname, U.Lastname, U.Email FROM UserClass UC LEFT JOIN (SELECT StudentId, ExamId, TotalPoints FROM StudentExam WHERE ExamId = @ExamId) SE ON UC.UserId = SE.StudentId LEFT JOIN [User] U ON UC.UserId = U.Id WHERE UC.ClassId = (SELECT TOP 1 ClassId FROM Subject WHERE Id = (SELECT SubjectId FROM Exam WHERE Id = @ExamId)) AND UC.Role = 'student' order by SE.TotalPoints desc;";
+            string query = @"SELECT UC.UserId, ISNULL(SE.ExamId, 0) AS ExamId, SE.TotalPoints, SE.Status, U.Firstname, U.Lastname, U.Email FROM UserClass UC LEFT JOIN (SELECT StudentId, ExamId, TotalPoints, Status FROM StudentExam WHERE ExamId = @ExamId) SE ON UC.UserId = SE.StudentId LEFT JOIN [User] U ON UC.UserId = U.Id WHERE UC.ClassId = (SELECT TOP 1 ClassId FROM Subject WHERE Id = (SELECT SubjectId FROM Exam WHERE Id = @ExamId)) AND UC.Role = 'student' order by SE.TotalPoints desc;";
             using (var connection = this.context.CreateConnection())
             {
                 var parameters = new

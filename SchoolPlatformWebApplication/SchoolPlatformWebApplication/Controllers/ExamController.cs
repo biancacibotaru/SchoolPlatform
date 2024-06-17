@@ -234,6 +234,43 @@ namespace SchoolPlatformWebApplication.Controllers
             return Ok("Exam submitted successfully!");
         }
 
+        [HttpPost("SubmitCheatExam")]
+        public async Task<IActionResult> SubmitCheatExam([FromBody] StudentResponse studentResponse)
+        {
+            if (studentResponse == null)
+            {
+                return BadRequest("Invalid response data.");
+            }
+
+            var studentExam = new StudentExam
+            {
+                StudentId = studentResponse.StudentId,
+                ExamId = studentResponse.ExamId,
+                Status = "Cheating",
+                TotalPoints = 0
+            };
+
+            studentExam.Id = await repo.InsertStudentExam(studentExam);
+            float totalPoints = 0;
+
+            await repo.SetTotalPoints(studentExam, (float)Math.Round(totalPoints + 1, 2));
+
+            int subjectId = await repo.GetSubjectIdByExam(studentResponse.ExamId);
+            Grade newGrade = new Grade()
+            {
+                Points = (float)Math.Round(totalPoints + 1, 2),
+                StudentId = studentResponse.StudentId,
+                SubjectId = subjectId,
+                ExamId = studentResponse.ExamId,
+                GradeFor = "Exam",
+                GradeDate = DateTime.Now.ToString("M/d/yyyy h:mm:ss tt")
+            };
+
+            var responseGrade = await this.gradeRepo.InsertGrade(newGrade);
+
+            return Ok("Exam submitted successfully!");
+        }
+
         private float CalculatePoints(Question question, List<string> studentAnswers)
         {
             var totalPoints = question.Points;

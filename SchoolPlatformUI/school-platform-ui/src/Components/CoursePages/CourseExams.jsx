@@ -101,15 +101,15 @@ const CourseExams = () => {
                                     <td>{exam.StartedOn}</td>
                                     <td>
                                         {currentTime < startTime ? (
-                                            <span>Not started yet</span>
+                                            <span>Not started</span>
                                         ) : currentTime > endTime ? (
-                                            status ? (
-                                                <Link to={`/view-exam-result-for-student?id=${exam.Id}`} style={{ textDecoration: 'none' }}>
-                                                    View results
-                                                </Link>
+                                            status && status.Status === 'Cheating' ? (
+                                                <span>Cheating</span>
                                             ) : (
                                                 <span>Missed exam</span>
                                             )
+                                        ) : status && status.Status === 'Cheating' ? (
+                                            <span>Cheating</span>
                                         ) : status ? (
                                             <Link to={`/view-exam-result-for-student?id=${exam.Id}`} style={{ textDecoration: 'none' }}>
                                                 View results

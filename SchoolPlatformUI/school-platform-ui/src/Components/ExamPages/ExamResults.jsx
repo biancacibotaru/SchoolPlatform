@@ -76,7 +76,7 @@ const ExamResults = () => {
                             <tr key={index}>
                                 <td>{result.Firstname} {result.Lastname}</td>
                                 <td>{result.Email}</td>
-                                <td>{result.TotalPoints == null ? 'Absent' : result.TotalPoints.toFixed(2)}</td>
+                                <td>{result.TotalPoints == null ? 'Absent' : result.TotalPoints.toFixed(2)} {result.Status === "Cheating" ? '(Cheating)' : ''}</td>
                             </tr>
                         ))}
                     </tbody>
