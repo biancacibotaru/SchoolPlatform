@@ -68,7 +68,7 @@ const GradePage = () => {
                     <thead>
                         <tr>
                             <th>Grade</th>
-                            <th>Subject</th>
+                            <th>Grade For</th>
                             <th>Homework/Exam Title</th>
                             <th>Date</th>
                         </tr>
