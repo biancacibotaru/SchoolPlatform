@@ -51,7 +51,7 @@
 
 .picture{
     margin:0 3vw;
-    font-size: 4vw; /* Am mărit dimensiunile iconițelor */
+    font-size: 4vw; 
 }
 
 .input input{
@@ -97,17 +97,17 @@
 }
 
 .error {
-    color: #d8000c; /* culoarea textului */
-    text-align: center; /* alinierea textului la centru */
+    color: #d8000c; 
+    text-align: center; 
     margin-top: -10px;
-    margin-bottom: -10px; /* reducerea spațiului de sus *//* adăugarea unui spațiu mic dedesubt */
+    margin-bottom: -10px; 
 }
 
 .login-error {
-    color: #d8000c; /* culoarea textului */
-    text-align: center; /* alinierea textului la centru */
+    color: #d8000c; 
+    text-align: center; 
     margin-top: 5px;
-    margin-bottom: 10px; /* reducerea spațiului de sus *//* adăugarea unui spațiu mic dedesubt */
+    margin-bottom: 10px;
 }
 
 .popup {

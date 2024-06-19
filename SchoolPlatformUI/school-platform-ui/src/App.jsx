@@ -28,7 +28,7 @@ import ViewExamForTeacher from './Components/ExamPages/ViewExamForTeacher';
 import ViewExamResultForStudent from './Components/ExamPages/ViewExamResultForStudent';
 import ExamResults from './Components/ExamPages/ExamResults';
 import Sidebar from './Components/Sidebar/Sidebar';
-import { BrowserRouter as Router, Route, Routes, Outlet } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes,Navigate, Outlet } from 'react-router-dom';
 
 const StudentPages = () => {
   return (
@@ -80,6 +80,7 @@ const App = () => {
     <div className="App">
       <div className="background"></div>
     <Routes>
+    <Route path="/" element={<Navigate to="/login" />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       <Route element={<StudentPages />}>

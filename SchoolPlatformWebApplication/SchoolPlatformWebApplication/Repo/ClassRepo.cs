@@ -47,7 +47,7 @@ namespace SchoolPlatformWebApplication.Repo
                     Code = newClass.Code,
                     Description = newClass.Description
                 };
-                // Utilizați ExecuteScalarAsync pentru a obține ID-ul inserat
+
                 var newClassId = await connection.ExecuteScalarAsync<int>(query, parameters);
                 return newClassId;
             }

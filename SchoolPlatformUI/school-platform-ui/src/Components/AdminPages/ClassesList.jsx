@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'; // Importă Link din react-router-dom
+import { Link } from 'react-router-dom'; 
 import './admin.css';
 import AddClassroomForm from './AddClassroomForm';
 
@@ -38,16 +38,14 @@ const ClassesListPage = () => {
           Description: ''
         }),
       });
-      setPopupMessage('Classroom added successfully!'); // Setăm mesajul de succes
-      setShowPopup(true); // Afisam popup-ul cu mesajul de succes
+      setPopupMessage('Classroom added successfully!'); 
+      setShowPopup(true); 
       newClassroom = await response.json();
-      // setClasses([...classes, newClassroom]);
     } catch (error) {
       console.error('Error adding classroom:', error);
     }
 
     try {
-      console.log('lalalalalaa');
       const response = await fetch('http://localhost:5271/api/userclass/insertuserclass', {
         method: 'POST',
         headers: {
@@ -59,10 +57,8 @@ const ClassesListPage = () => {
           Role: 'leader'
         }),
       });
-      setPopupMessage('Classroom added successfully!'); // Setăm mesajul de succes
-      setShowPopup(true); // Afisam popup-ul cu mesajul de succes
-      // const newClassroom = await response.json();
-      // setClasses([...classes, newClassroom]);
+      setPopupMessage('Classroom added successfully!'); 
+      setShowPopup(true); 
     } catch (error) {
       console.error('Error adding classroom:', error);
     }
@@ -79,7 +75,7 @@ const ClassesListPage = () => {
               <th>Code</th>
               <th>Leader name</th>
               <th>Leader email</th>
-              <th>Members</th> {/* Adaugă coloana "Members" */}
+              <th>Members</th>
             </tr>
           </thead>
           <tbody>
@@ -89,9 +85,9 @@ const ClassesListPage = () => {
                 <td>{c.Code}</td>
                 <td>{c.TeacherFirstname} {c.TeacherLastname}</td>
                 <td>{c.TeacherEmail}</td>
-                <td> {/* Adaugă butonul pentru fiecare clasă */}
+                <td> 
                   <Link to={`/student-list-by-class/${c.Id}`}>
-                    <button className="red-button">View Members</button> {/* Aplică stilul pentru buton */}
+                    <button className="red-button">View Members</button> 
                   </Link>
                 </td>
               </tr>

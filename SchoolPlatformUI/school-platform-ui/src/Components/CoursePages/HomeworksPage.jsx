@@ -132,7 +132,7 @@ const HomeworksPage = () => {
                             <p>TO DO: {homework.Description}</p>
                             <p>
                                 <a className="homework-requirement" href={`data:${homework.HomeworkFileContentType};base64,${homework.HomeworkFileContent}`} download={homework.HomeworkFileName}>
-                                    📎{homework.HomeworkFileName}
+                                    {homework.HomeworkFileName}
                                 </a>
                             </p>
                             <p>Start Date: {homework.StartDate}</p>

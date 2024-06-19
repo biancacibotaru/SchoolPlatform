@@ -31,7 +31,7 @@ const ViewExamForTeacher = () => {
                 throw new Error('Network response was not ok');
             }
             const examData = await response.json();
-            console.log('Exam data fetched:', examData); // Log the response for debugging
+            console.log('Exam data fetched:', examData); 
 
             setExamDetails({
                 Title: examData.Title || '',
@@ -39,7 +39,7 @@ const ViewExamForTeacher = () => {
                 Duration: examData.Duration || '',
                 StartedOn: formatDateForInput(examData.StartedOn) || ''
             });
-            setQuestions(examData.Questions || []); // Ensure questions is an array
+            setQuestions(examData.Questions || []); 
         } catch (error) {
             console.error('Error fetching exam data:', error);
         }

@@ -36,12 +36,10 @@ const SignupPage = () => {
             const { firstName, lastName, email, password, confirmPassword } = formData;
             const errorsCopy = { ...errors };
 
-            // Reset errors
             for (const key in errorsCopy) {
                 errorsCopy[key] = '';
             }
 
-            // Check if first name and last name are provided
             if (!firstName.trim()) {
                 errorsCopy.firstName = 'First name is required';
             }
@@ -49,14 +47,12 @@ const SignupPage = () => {
                 errorsCopy.lastName = 'Last name is required';
             }
 
-            // Check if email is provided and valid
             if (!email.trim()) {
                 errorsCopy.email = 'Email is required';
             } else if (!isValidEmail(email)) {
                 errorsCopy.email = 'Invalid email format';
             }
 
-            // Check if password is provided and matches confirmPassword
             if (!password.trim()) {
                 errorsCopy.password = 'Password is required';
             } else if (password.length < 8) {
@@ -67,10 +63,8 @@ const SignupPage = () => {
                 errorsCopy.confirmPassword = 'Passwords do not match';
             }
 
-            // Update errors state
             setErrors(errorsCopy);
 
-            // If there are no errors, submit the form
             if (!Object.values(errorsCopy).some(error => error)) {
                 const response = await fetch('http://localhost:5271/api/user/insertuser', {
                     method: 'POST',
@@ -84,14 +78,14 @@ const SignupPage = () => {
                         hashedPassword: '',
                         firstName,
                         lastName,
-                        type: 'student' // Sau altceva, în funcție de logică
+                        type: 'student' 
                     })
                 });
                 if (response.ok) {
                     setShowSuccessPopup(true);
                     console.log('Registration successful');
                 } else {
-                    const errorMessage = await response.text(); // Sau .json(), în funcție de cum este formatată eroarea pe server
+                    const errorMessage = await response.text(); 
                     setErrorMessage(errorMessage);
                     console.error('Error during registration:', errorMessage);
                 }
@@ -101,14 +95,11 @@ const SignupPage = () => {
         }
     };
 
-
-    // Function to validate email format
     const isValidEmail = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     };
 
-    // Function to check if password contains at least one letter and one number
     const containsLetterAndNumber = (password) => {
         const letterRegex = /[a-zA-Z]/;
         const numberRegex = /\d/;

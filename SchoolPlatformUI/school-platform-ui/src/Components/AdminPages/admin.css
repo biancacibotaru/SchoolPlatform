@@ -5,8 +5,7 @@
 
 .class-buttons-container {
   display: flex;
-  /* margin-left: 200px; */
-  justify-content: center; /* Aliniere butoane pe orizontală în centru */
+  justify-content: center; 
   margin-top: 20px;
   text-align: center;
 }
@@ -20,7 +19,7 @@
   border-radius: 5px;
   text-decoration: none;
   font-size: 14px;
-  margin: 0 10px; /* Spațiere între butoane */
+  margin: 0 10px; 
   transition: background-color 0.3s;
 }
 

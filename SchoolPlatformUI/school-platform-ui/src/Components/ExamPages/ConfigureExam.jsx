@@ -53,7 +53,7 @@ const ConfigureExam = () => {
                 StartedOn: formatDateForInput(examData.StartedOn) || '',
                 ClosedOn: examData.ClosedOn || ''
             });
-            setQuestions(examData.Questions || []); // Ensure questions is an array
+            setQuestions(examData.Questions || []); 
         } catch (error) {
             console.error('Error fetching exam data:', error);
         }
@@ -149,7 +149,7 @@ const ConfigureExam = () => {
             }
 
             alert('Exam configured successfully!');
-            navigate(`/course-exams-for-teacher?id=${subjectId}`); // Navigate to the previous page after closing the alert
+            navigate(`/course-exams-for-teacher?id=${subjectId}`); 
         } catch (error) {
             console.error('Error configuring exam:', error);
         }
@@ -172,7 +172,7 @@ const ConfigureExam = () => {
         }
 
         const examData = {
-            Id: examId || 0, // If it's a new exam, Id will be 0, else it will be the existing examId
+            Id: examId || 0, 
             SubjectId: subjectId,
             Title: examDetails.Title,
             Description: examDetails.Description,
@@ -180,11 +180,11 @@ const ConfigureExam = () => {
             StartedOn: formatDateTimeForServer(examDetails.StartedOn),
             State: 'published',
             Questions: questions.map((q, index) => ({
-                Id: q.Id || index + 1, // Use existing question id or assign a temporary one
+                Id: q.Id || index + 1, 
                 Text: q.Text,
                 Points: q.Points,
                 Answers: q.Answers.map((a, aIndex) => ({
-                    Id: a.Id || aIndex + 1, // Use existing answer id or assign a temporary one
+                    Id: a.Id || aIndex + 1, 
                     Text: a.Text,
                     IsCorrect: a.IsCorrect
                 }))
@@ -205,7 +205,7 @@ const ConfigureExam = () => {
             }
 
             alert('Exam configured successfully!');
-            navigate(`/course-exams-for-teacher?id=${subjectId}`); // Navigate to the previous page after closing the alert
+            navigate(`/course-exams-for-teacher?id=${subjectId}`); 
         } catch (error) {
             console.error('Error configuring exam:', error);
         }

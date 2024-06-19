@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './admin.css'; // Importați stilurile CSS
+import './admin.css'; 
 
 const AddTeacherForm = ({ onAddTeacher }) => {
   const [newTeacherEmail, setNewTeacherEmail] = useState('');
@@ -10,13 +10,11 @@ const AddTeacherForm = ({ onAddTeacher }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Verificați dacă toate câmpurile sunt completate
     if (!newTeacherEmail || !newTeacherFirstname || !newTeacherLastname || !newTeacherPassword) {
       setError('All fields are required.');
       return;
     }
 
-    // Trimiteți datele către funcția de adăugare a profesorului
     onAddTeacher({
       email: newTeacherEmail,
       password: newTeacherPassword,
@@ -24,12 +22,11 @@ const AddTeacherForm = ({ onAddTeacher }) => {
       lastName: newTeacherLastname,
     });
     
-    // Resetați câmpurile după trimiterea cu succes a formularului
     setNewTeacherEmail('');
     setNewTeacherFirstname('');
     setNewTeacherLastname('');
     setNewTeacherPassword('');
-    setError(''); // Resetați și mesajul de eroare
+    setError(''); 
   };
 
   return (

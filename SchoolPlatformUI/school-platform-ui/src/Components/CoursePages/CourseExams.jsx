@@ -15,7 +15,6 @@ const CourseExams = () => {
     const [studentId, setStudentId] = useState(null);
 
     useEffect(() => {
-        // Assuming studentId is stored in Cookies
         const fetchStudentId = () => {
             const userDataFromCookie = Cookies.get('loggedIn');
             if (userDataFromCookie) {
@@ -42,7 +41,7 @@ const CourseExams = () => {
                 const statusPromises = data.map(exam =>
                     fetch(`http://localhost:5271/api/Exam/GetStudentExamStatus/${exam.Id}?studentId=${studentId}`)
                         .then(res => res.json())
-                        .catch(() => null) // Handle error by returning null
+                        .catch(() => null) 
                 );
 
                 const statuses = await Promise.all(statusPromises);
@@ -102,18 +101,16 @@ const CourseExams = () => {
                                     <td>
                                         {currentTime < startTime ? (
                                             <span>Not started</span>
-                                        ) : currentTime > endTime ? (
-                                            status && status.Status === 'Cheating' ? (
+                                        ) : status ? (
+                                            status.Status === 'Cheating' ? (
                                                 <span>Cheating</span>
                                             ) : (
-                                                <span>Missed exam</span>
+                                                <Link to={`/view-exam-result-for-student?id=${exam.Id}`} style={{ textDecoration: 'none' }}>
+                                                    View results
+                                                </Link>
                                             )
-                                        ) : status && status.Status === 'Cheating' ? (
-                                            <span>Cheating</span>
-                                        ) : status ? (
-                                            <Link to={`/view-exam-result-for-student?id=${exam.Id}`} style={{ textDecoration: 'none' }}>
-                                                View results
-                                            </Link>
+                                        ) : currentTime > endTime ? (
+                                            <span>Missed exam</span>
                                         ) : (
                                             <Link to={`/view-exam-for-student?id=${exam.Id}&subjectId=${id}`} style={{ textDecoration: 'none' }}>
                                                 Start exam

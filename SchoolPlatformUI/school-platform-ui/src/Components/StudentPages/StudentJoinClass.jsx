@@ -19,7 +19,6 @@ const StudentJoinClass = () => {
   useEffect(() => {
     const fetchAvailableClasses = async () => {
       try {
-        // Verificați dacă userId este disponibil
         if (!userId) return;
 
         const response = await fetch("http://localhost:5271/api/class/getallclasses");
@@ -61,7 +60,6 @@ const StudentJoinClass = () => {
 
   const handleJoinClass = async () => {
     try {
-      // Verificați dacă există deja o cerere cu statusul "in check"
       const isInCheck = (existingRequest.Status === 'in check');
       if (isInCheck) {
         console.log("There is already a join request in check status.");
@@ -80,7 +78,6 @@ const StudentJoinClass = () => {
 
       if (response.ok) {
         console.log("Class joined successfully!");
-        // Refresh the page after successful join request
         window.location.reload();
       } else {
         console.error("Failed to join class:", response.statusText);

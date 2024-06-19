@@ -5,7 +5,7 @@
         public int Id { get; set; }
         public int StudentExamId { get; set; }
         public int QuestionId { get; set; }
-        public string Answers { get; set; }  // Comma-separated list of selected answer IDs
+        public string Answers { get; set; } 
         public float PointsPerQuestion { get; set; }
     }
 

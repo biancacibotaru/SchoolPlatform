@@ -30,7 +30,7 @@ const Sidebar = () => {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-                setHasFutureExams(data); // Assuming the API returns a boolean
+                setHasFutureExams(data); 
             } catch (error) {
                 console.error('Error checking for future exams:', error);
             }
@@ -43,7 +43,7 @@ const Sidebar = () => {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-                setHasFutureHomeworks(data); // Assuming the API returns a boolean
+                setHasFutureHomeworks(data); 
             } catch (error) {
                 console.error('Error checking for future exams:', error);
             }
@@ -63,7 +63,7 @@ const Sidebar = () => {
 
     const handleLogout = () => {
         Cookies.remove('loggedIn');
-        navigate('/login'); // Redirecționăm utilizatorul către pagina de login după logout
+        navigate('/login'); 
     };
 
     return (

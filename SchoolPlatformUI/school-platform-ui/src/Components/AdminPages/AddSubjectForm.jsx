@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './admin.css'; // Importați stilurile CSS
+import './admin.css'; 
 
 const AddSubjectForm = ({ onAddSubject, selectedClassName }) => {
     const [newSubjectName, setNewSubjectName] = useState('');
@@ -27,25 +27,22 @@ const AddSubjectForm = ({ onAddSubject, selectedClassName }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Verificați dacă toate câmpurile sunt completate
         if (!newSubjectName || !selectedClassName || !newSubjectTeacher || !newSubjectHours) {
             setError('All fields are required.');
             return;
         }
 
-        // Trimiteți datele către funcția de adăugare a materiei
         onAddSubject({
             Name: newSubjectName,
-            Class: selectedClassName, // Pasăm numele clasei
+            Class: selectedClassName, 
             TeacherId: newSubjectTeacher,
             HoursPerWeek: newSubjectHours
         });
 
-        // Resetați câmpurile după trimiterea cu succes a formularului
         setNewSubjectName('');
         setNewSubjectTeacher('');
         setNewSubjectHours('');
-        setError(''); // Resetați și mesajul de eroare
+        setError(''); 
     };
 
     return (
@@ -62,7 +59,7 @@ const AddSubjectForm = ({ onAddSubject, selectedClassName }) => {
                     type="text"
                     hidden
                     placeholder="Class"
-                    value={selectedClassName} // Utilizăm numele clasei selectate
+                    value={selectedClassName} 
                     readOnly
                 />
 

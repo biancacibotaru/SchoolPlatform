@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './admin.css'; // Importați stilurile CSS
+import './admin.css'; 
 
 const AddClassroomForm = ({ onAddClassroom }) => {
   const [newClassroomCode, setNewClassroomCode] = useState('');
@@ -27,22 +27,20 @@ const AddClassroomForm = ({ onAddClassroom }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Verificați dacă toate câmpurile sunt completate
+
     if (!newClassroomCode || !newClassroomLeader) {
       setError('All fields are required.');
       return;
     }
 
-    // Trimiteți datele către funcția de adăugare a profesorului
     onAddClassroom({
       Code: newClassroomCode,
       Teacher: newClassroomLeader,
     });
     
-    // Resetați câmpurile după trimiterea cu succes a formularului
     setNewClassroomCode('');
     setNewClassroomLeader('');
-    setError(''); // Resetați și mesajul de eroare
+    setError(''); 
   };
 
   return (

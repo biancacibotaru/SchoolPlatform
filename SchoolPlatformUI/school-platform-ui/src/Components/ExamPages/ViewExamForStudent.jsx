@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './examPages.css';
 import Cookies from 'js-cookie';
-import useIsTabActive from './UseIsTabActive'; // Presupunând că ai creat un hook separat pentru verificarea stării de activitate a tab-ului
+import useIsTabActive from './UseIsTabActive'; 
 
 const ViewExamForStudent = () => {
     const location = useLocation();
@@ -23,7 +23,7 @@ const ViewExamForStudent = () => {
     const [userId, setUserId] = useState('');
     const [hasSubmittedCheat, setHasSubmittedCheat] = useState(false);
 
-    const isTabActive = useIsTabActive(); // Utilizăm hook-ul custom pentru verificarea tab-ului activ
+    const isTabActive = useIsTabActive(); 
 
     useEffect(() => {
         const fetchExam = async () => {
@@ -53,7 +53,6 @@ const ViewExamForStudent = () => {
     }, [examId]);
 
     useEffect(() => {
-        // Preluăm userId din cookie la început
         const userDataFromCookie = Cookies.get('loggedIn');
         if (userDataFromCookie) {
             const userData = JSON.parse(userDataFromCookie);
@@ -65,16 +64,15 @@ const ViewExamForStudent = () => {
         let timer;
 
         if (!isTabActive && !hasSubmittedCheat) {
-            // Utilizatorul a părăsit tab-ul
             timer = setTimeout(() => {
                 if (!isTabActive) {
                     setWarningMessage('Suspicious activity detected: Cheating attempt detected.');
                     alert('You have been detected cheating. Exam will be automatically submitted.');
-                    handleSubmit(true); // Submit exam automatically and mark as cheating
+                    handleSubmit(true); 
                 }
-            }, 10000); // 10 seconds timeout
+            }, 10000); 
         } else {
-            // Utilizatorul a revenit pe tab, anulăm timer-ul și ștergem mesajul de avertisment
+            
             clearTimeout(timer);
             setWarningMessage('');
         }
@@ -96,7 +94,7 @@ const ViewExamForStudent = () => {
         } else {
             setTimeLeft('Time\'s up!');
             alert('Time is up! You will be redirected.');
-            handleSubmit(false); // Submit exam automatically
+            handleSubmit(false); 
         }
     };
 
@@ -162,7 +160,7 @@ const ViewExamForStudent = () => {
                 alert('Exam submitted successfully!');
             }
 
-            navigate(`/course-exams?id=${subjectId}`);  // Redirect to the course page immediately
+            navigate(`/course-exams?id=${subjectId}`);  
 
         } catch (error) {
             console.error('Error submitting exam:', error);

@@ -86,7 +86,6 @@ namespace SchoolPlatformWebApplication.Controllers
                     return BadRequest("User data cannot be null!");
                 }
 
-                // Verificăm dacă există deja un utilizator cu aceeași adresă de email
                 var existingUser = await this.repo.GetUserByEmail(user.Email);
                 if (existingUser != null)
                 {

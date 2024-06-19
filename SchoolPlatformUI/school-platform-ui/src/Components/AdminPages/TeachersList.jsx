@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'; // Importați Link din 'react-router-dom'
+import { Link } from 'react-router-dom'; 
 import './admin.css';
 import AddTeacherForm from './AddTeacherForm';
 
@@ -38,8 +38,8 @@ const TeachersListPage = () => {
           type: 'teacher'
         }),
       });
-      setPopupMessage('Teacher added successfully!'); // Setăm mesajul de succes
-      setShowPopup(true); // Afisam popup-ul cu mesajul de succes
+      setPopupMessage('Teacher added successfully!'); 
+      setShowPopup(true); 
     } catch (error) {
       console.error('Error adding teacher:', error);
     }

@@ -50,11 +50,10 @@ const HomeworkSubmission = () => {
                 if (!response.ok) {
                     throw new Error('Failed to update grade');
                 }
-                // Refresh the homework list after successful update
+       
                 fetchStudentHomework();
             } catch (error) {
                 console.error('Error updating grade:', error);
-                // Handle error
             }
         }
     };

@@ -47,7 +47,7 @@ const CourseExamsForTeacher = () => {
         if (exam.State === 'published') {
             const currentDate = new Date();
             const examStartDate = new Date(exam.StartedOn);
-            const examDuration = exam.Duration * 60000; // Durata examenului în milisecunde
+            const examDuration = exam.Duration * 60000; 
             return examStartDate.getTime() + examDuration < currentDate.getTime();
         }
         return false;

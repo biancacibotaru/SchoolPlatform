@@ -66,7 +66,7 @@ const CoursePresentationForTeacher = () => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            // Reîncărcați pagina după adăugarea cu succes a unui nou material
+
             window.location.reload();
         } catch (error) {
             console.error('Error adding new material:', error);
@@ -81,7 +81,6 @@ const CoursePresentationForTeacher = () => {
         return <div>Error: {error}</div>;
     }
 
-    // Gruparea materialelor după dată
     const groupedMaterials = materials.reduce((groups, material) => {
         const date = material.CreatedOn;
         if (!groups[date]) {
@@ -121,7 +120,6 @@ const CoursePresentationForTeacher = () => {
                     <div key={date} className="material-group">
                         <h2 className="material-date">{date}</h2>
                         {groupedMaterials[date].map((material, materialIndex) => {
-                            // Crearea URL-ului data-uri pentru descărcare/vizualizare
                             const fileUrl = `data:application/octet-stream;base64,${material.FileContent}`;
                             
                             return (
@@ -133,7 +131,6 @@ const CoursePresentationForTeacher = () => {
                                            {material.FileName}
                                         </a>
                                     )}
-                                    {/* Adăugarea unei linii orizontale între materiale, cu excepția ultimului material din grup */}
                                     {materialIndex < groupedMaterials[date].length - 1 && <hr className="material-divider" />}
                                 </div>
                             );

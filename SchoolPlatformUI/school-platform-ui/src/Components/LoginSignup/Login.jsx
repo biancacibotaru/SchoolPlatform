@@ -15,7 +15,7 @@ const Login = () => {
     const [errorMessage, setErrorMessage] = useState('');
 
     const setLoginCookies = (userData) => {
-        const userDataJSON = JSON.stringify(userData); // Convertim obiectul userData într-un șir JSON
+        const userDataJSON = JSON.stringify(userData); 
         Cookies.set('loggedIn', userDataJSON, { expires: 0.0208 });
     };
 
@@ -85,7 +85,6 @@ const Login = () => {
                     console.log(userData);
                     if (userData.Type === 'student') {
                         try {
-                            // Faceți cererea GET separată pentru a obține clasa studentului
                             const classResponse = await fetch(`http://localhost:5271/api/userclass/getstudentclass/${userData.Id}`, {
                                 method: 'GET',
                                 headers: {
@@ -97,7 +96,6 @@ const Login = () => {
                                 const studentClassName = await classResponse.text();
                                 userData.Class = studentClassName;
                             } else {
-                                // Handle error
                                 console.error('Error fetching student class:', classResponse.statusText);
                                 setErrorMessage("Error fetching student class.");
                                 return;
@@ -108,9 +106,9 @@ const Login = () => {
                             return;
                         }
                     }
-                    // Salvați userData în cookie
+                    
                     setLoginCookies(userData);
-                    // Navigați către pagina corectă în funcție de tipul utilizatorului
+                   
                     if (userData.Type === 'student' && userData.Class) {
                         navigate('/student-courses');
                     } else if(userData.Type === 'student' && !userData.Class){
@@ -156,14 +154,11 @@ const Login = () => {
             </div>
             <div className="submit-container">
                 <div className="submit" onClick={handleSubmit}>Login</div>
-                {/* <div className="logout" onClick={handleLogout}>Logout</div> */}
             </div>
             {errorMessage && <p className="login-error">{errorMessage}</p>}
             <div className="signup-link">
                 Don't have an account? <Link to="/signup">Register</Link>
             </div>
-
-            {/* Afișează mesajul de eroare dacă există */}
         </div>
     );
 };

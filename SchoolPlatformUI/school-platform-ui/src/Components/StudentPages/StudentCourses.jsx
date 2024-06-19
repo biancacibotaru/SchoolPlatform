@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardBody, CardTitle, CardText } from 'reactstrap';
-import { Link } from 'react-router-dom'; // Importă Link din react-router-dom
+import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import './studentPages.css';
 
@@ -55,10 +55,9 @@ const StudentCourses = () => {
     return (
         <div className="content">
             <h1 className="title">Dashboard</h1>
-            <div className="card-list row"> {/* Schimbăm row-cols-md-3 cu row-cols-lg-3 */}
+            <div className="card-list row"> 
                 {subjects.map((subject, index) => (
-                    <div key={index} className="row-cols-mb-6"> {/* Adăugăm clasa col pentru a defini fiecare card */}
-                        {/* Înfășurăm conținutul cardului într-un element Link */}
+                    <div key={index} className="row-cols-mb-6"> 
                         <Link to={`/course-main-page?id=${subject.SubjectId}&name=${subject.Name}`} style={{ textDecoration: 'none' }}>
                             <Card className="card-bordered">
                                 <CardBody>

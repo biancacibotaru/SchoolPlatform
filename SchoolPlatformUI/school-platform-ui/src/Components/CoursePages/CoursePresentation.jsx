@@ -40,7 +40,6 @@ const CoursePresentation = () => {
         return <div>Error: {error}</div>;
     }
 
-    // Gruparea materialelor după dată
     const groupedMaterials = materials.reduce((groups, material) => {
         const date = material.CreatedOn;
         if (!groups[date]) {
@@ -60,7 +59,6 @@ const CoursePresentation = () => {
                     <div key={date} className="material-group">
                         <h2 className="material-date">{date}</h2>
                         {groupedMaterials[date].map((material, materialIndex) => {
-                            // Crearea URL-ului data-uri pentru descărcare/vizualizare
                             const fileUrl = `data:application/octet-stream;base64,${material.FileContent}`;
 
                             return (
@@ -72,7 +70,6 @@ const CoursePresentation = () => {
                                             {material.FileName}
                                         </a>
                                     )}
-                                    {/* Adăugarea unei linii orizontale între materiale, cu excepția ultimului material din grup */}
                                     {materialIndex < groupedMaterials[date].length - 1 && <hr className="material-divider" />}
                                 </div>
                             );

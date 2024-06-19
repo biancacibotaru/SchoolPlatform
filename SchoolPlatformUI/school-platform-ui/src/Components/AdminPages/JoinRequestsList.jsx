@@ -35,7 +35,6 @@ const JoinRequestsList = () => {
                 throw new Error('Failed to update request status');
             }
 
-            // Refetch the data after updating the status
             await fetchJoinRequests();
         } catch (error) {
             console.error('Error updating request status:', error);

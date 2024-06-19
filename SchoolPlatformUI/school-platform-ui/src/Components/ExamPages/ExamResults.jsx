@@ -29,7 +29,7 @@ const ExamResults = () => {
 
     useEffect(() => {
         fetchExamResults();
-    }, [id]); // Include id in dependencies to refetch when id changes
+    }, [id]); 
 
     const handleInsertGradesForAbsentStudents = async () => {
         try {
@@ -39,10 +39,9 @@ const ExamResults = () => {
             if (!response.ok) {
                 throw new Error('Failed to insert grades for absent students');
             }
-            // Refresh data after insertion
+            
             fetchExamResults();
 
-            // Show alert and redirect
             window.alert('Grades for absent students have been inserted.');
             navigate(`/course-exams-for-teacher?id=${subjectId}`);
         } catch (error) {

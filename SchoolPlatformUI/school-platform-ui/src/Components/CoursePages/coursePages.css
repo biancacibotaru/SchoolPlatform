@@ -1,4 +1,3 @@
-/* Stiluri pentru pagina de conținut a cursului */
 .content-course {
     max-width: 800px;
     margin: 0 auto;
@@ -11,7 +10,7 @@
 }
 
 .content-course td{
-    background: linear-gradient(to bottom, #b4c7e2, #f7f3f3); /* Gradient negru */
+    background: linear-gradient(to bottom, #b4c7e2, #f7f3f3); 
     margin-bottom: 10px;
     margin-left: 5px;
 }
@@ -26,7 +25,7 @@
     text-align: left;
     padding: 20px;
     border-radius: 8px;
-    background-color: #fff; /* Albastru deschis */
+    background-color: #fff; 
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -40,7 +39,7 @@
     margin-bottom: 15px;
     padding: 15px;
     border-radius: 8px;
-    background: linear-gradient(to bottom, #b4c7e2, #f7f3f3); /* Gradient negru */
+    background: linear-gradient(to bottom, #b4c7e2, #f7f3f3); 
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -79,7 +78,7 @@
 }
 
 .material-download::before {
-    content: '\1F4C4'; /* Unicode pentru iconița de descărcare */
+    content: '\1F4C4'; 
     margin-right: 5px;
 }
 
@@ -192,42 +191,40 @@
 }
 
 .homework-item h2 {
-    margin-top: 0; /* Elimină spațiul de sus al titlului */
-    margin-bottom: 10px; /* Adaugă un spațiu între titlu și descriere */
+    margin-top: 0; 
+    margin-bottom: 10px; 
 }
 
 .homework-item p {
-    margin: 5px 0; /* Spațiu între detaliile temei */
+    margin: 5px 0; 
 }
 
 .homework-item hr {
-    width: 100%; /* Setează lățimea liniei la 100% */
-    border-top: 1px solid #ddd; /* Stilizează linia cu o margine subțire */
-    margin: 10px 0; /* Adaugă o margine sus și jos pentru a delimita liniile */
+    width: 100%; 
+    border-top: 1px solid #ddd; 
+    margin: 10px 0; 
 }
 
 .file-viewer {
-    font-family: Arial, sans-serif; /* Utilizează o familie de fonturi sans-serif pentru o citire ușoară */
-    font-size: 14px; /* Mărimea textului */
-    line-height: 1.5; /* Înălțimea liniilor */
-    color: #333; /* Culoarea textului */
+    font-family: Arial, sans-serif; 
+    font-size: 14px; 
+    line-height: 1.5; 
+    color: #333; 
 }
 
-/* Stilizare pentru linkuri */
 .file-viewer a {
-    color: #007bff; /* Culoarea linkurilor */
-    text-decoration: none; /* Elimină sublinierea implicită */
+    color: #007bff; 
+    text-decoration: none; 
 }
 
 .file-viewer a:hover {
-    text-decoration: underline; /* Adaugă sublinierea la hover */
+    text-decoration: underline; 
 }
 
-/* Stilizare pentru linii orizontale */
 .file-viewer hr {
-    border: 0; /* Elimină orice margini sau borduri implicite */
-    border-top: 1px solid #ccc; /* Stilizează linia cu o margine subțire */
-    margin: 20px 0; /* Adaugă o margine sus și jos pentru a delimita liniile */
+    border: 0; 
+    border-top: 1px solid #ccc; 
+    margin: 20px 0; 
 }
 
 .upload-form {
@@ -242,22 +239,21 @@ button {
     margin-top: 10px;
 }
 
-/* Stiluri pentru pagina de conținut a cursului */
 .content-main {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
     font-family: Arial, sans-serif;
-    text-align: left; /* Alinează conținutul la stânga */
+    text-align: left; 
 }
 
 .content-main .course-link {
     display: block;
-    margin-bottom: 35px; /* Mărește spațiul între link-uri */
+    margin-bottom: 35px; 
     color: #eff4f8;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     text-decoration: none;
-    font-size: 2.5em; /* Mărimea fontului mai mare */
+    font-size: 2.5em; 
 }
 
 .content-main .course-link:hover {
@@ -266,15 +262,15 @@ button {
 
 .content-main .course-link::before {
     content: '➜';
-    margin-right: 10px; /* Mărește spațiul dintre săgeată și text */
+    margin-right: 10px; 
 }
 
 .title{
     font-size: 2.5rem;
-    font-weight: bold; /* Font bold pentru a face textul să iasă în evidență */
+    font-weight: bold; 
     color: white;
     margin-bottom: 40px;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Adaugă o umbrire subtilă pentru a evidenția textul */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); 
   }
   
   .new-material-button {
@@ -301,8 +297,8 @@ button {
     font-size: 16px;
     font-weight: bold;
     text-decoration: none;
-    color: black; /* culoarea textului */
-    background: linear-gradient(135deg, #ffffff, #57868f); /* gradient alb-albastru */
+    color: black; 
+    background: linear-gradient(135deg, #ffffff, #57868f); 
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -312,7 +308,7 @@ button {
 }
 
 .add-exam-button:hover {
-    background: linear-gradient(135deg, #eaf2f5, #70d8f5); /* gradient on hover */
+    background: linear-gradient(135deg, #eaf2f5, #70d8f5); 
 }
 
 .error-message {
@@ -360,7 +356,6 @@ button {
     background-color: #567eb3;
 }
 
-/* Stilizare buton pentru vizualizarea temei profesorului */
 .button-view-teacher-homework {
     background-color: #007bff;
     color: #fff;
@@ -423,7 +418,7 @@ button {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 200px; /* Adjust as needed */
+    max-width: 200px; 
 }
 
 .grade-button{

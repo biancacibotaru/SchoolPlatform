@@ -13,7 +13,7 @@ const HomeworksPageForTeacher = () => {
     const [newMaterial, setNewMaterial] = useState({
         title: '',
         description: '',
-        startDate: new Date().toISOString().split('T')[0], // Initial, setăm data de azi
+        startDate: new Date().toISOString().split('T')[0], 
         endDate: ''
     });
     const [file, setFile] = useState(null);

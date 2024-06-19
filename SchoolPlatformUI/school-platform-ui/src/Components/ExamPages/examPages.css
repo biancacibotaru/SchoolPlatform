@@ -69,7 +69,7 @@
 .exam-submit {
     padding: 10px 20px;
     font-size: 16px;
-    background: linear-gradient(135deg, #ffffff, #6a9ca4); /* gradient alb-albastru */
+    background: linear-gradient(135deg, #ffffff, #6a9ca4); 
     color: rgb(0, 0, 0);
     border: none;
     border-radius: 5px;
@@ -79,7 +79,7 @@
 }
 
 .exam-submit:hover{
-    background: linear-gradient(135deg, #6a9ca4, #ffffff); /* gradient alb-albastru */
+    background: linear-gradient(135deg, #6a9ca4, #ffffff); 
 }
 
 .exam-question-item {
@@ -161,9 +161,9 @@
   width: 24px;
   margin-top: 5px;
   height: 24px;
-  border: 2px solid #999; /* Stilul graniței */
-  border-radius: 4px; /* Rotunjimea colțurilor */
-  background-color: #fff; /* Culorea fundalului */
+  border: 2px solid #999; 
+  border-radius: 4px; 
+  background-color: #fff; 
 }
 
 .exam-button {
@@ -184,15 +184,15 @@
 
 .timer {
     position: fixed;
-    top: 20px; /* Ajustează poziția verticală după preferințele tale */
-    right: 20px; /* Ajustează poziția orizontală după preferințele tale */
+    top: 20px; 
+    right: 20px; 
     background-color: #ffffff;
     padding: 10px;
     border: 1px solid #cccccc;
     border-radius: 5px;
     font-size: 16px;
     font-weight: bold;
-    z-index: 999; /* Asigură-te că timerul este întotdeauna deasupra altor conținuturi */
+    z-index: 999; 
 }
 
 .exam-result-content {
@@ -253,7 +253,7 @@
     position: absolute;
     font-weight: bold;
     margin-left: 180px;
-    top: 2px; /* sau orice altă valoare pentru a-l plasa mai aproape de întrebare */
+    top: 2px; 
     background: linear-gradient(135deg, #ffffff, #44ac7f);
     border: none;
     padding: 5px 10px;
@@ -284,7 +284,7 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000; /* Asigură că overlay-ul este deasupra oricărui alt element */
+    z-index: 1000; 
 }
 
 .legend{

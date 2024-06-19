@@ -6,7 +6,7 @@
     width: 12rem;
     height: 100vh;
     transition: 0.5s all;
-    background-color: #fff; /* Fundal alb */
+    background-color: #fff; 
 
     .logout {
         button {
@@ -14,7 +14,7 @@
             border: none;
             cursor: pointer;
             font-size: 19px;
-            color: #275b8f; /* Albastru mai închis */
+            color: #275b8f; 
             margin: 0 0 0 0.2rem;
         }
     }
@@ -25,14 +25,14 @@
         justify-content: flex-start;
 
         img {
-            width: 3rem; /* Ajustați această valoare la dimensiunea dorită */
-            height: auto; /* Pentru a menține proporțiile imaginii */
-            margin-right: 1rem; /* Spațiu între imagine și text */
+            width: 3rem; 
+            height: auto; 
+            margin-right: 1rem; 
         }
         
         h2.title {
             font-size: 31px;
-            color: #275b8f; /* Albastru mai închis */
+            color: #275b8f; 
             padding: 0 0 0 1rem;
         }
     }
@@ -55,7 +55,7 @@
                 padding: 0;
                 margin: 0;
                 font-size: 19px;
-                color: #34495e; /* Albastru mai închis */
+                color: #34495e; 
                 text-transform: capitalize;
             }
 
@@ -63,7 +63,7 @@
                 padding: 0;
                 margin: 0;
                 font-size: 15px;
-                color: #34495e; /* Albastru mai închis */
+                color: #34495e; 
             }
         }
 
@@ -71,7 +71,7 @@
 
     .burgerContainer {
         content: "";
-        background-color: #2980b9; /* Albastru mai închis */
+        background-color: #2980b9; 
         position: absolute;
         right: (-35px / 2);
         top: calc(9rem / 1.15);
@@ -84,7 +84,7 @@
             content: "";
             width: 35px;
             height: 35px;
-            background-color: #c0392b; /* Roșu închis - culoare contrastantă pentru buton */
+            background-color: #c0392b; 
             cursor: pointer;
             z-index: 6;
             opacity: 0;
@@ -93,7 +93,7 @@
 
         .burgerMenu {
             content: "";
-            background-color: #34495e; /* Albastru mai închis */
+            background-color: #34495e; 
             position: relative;
             z-index: 1;
             width: 20px;
@@ -106,7 +106,7 @@
 
         .burgerMenu::after {
             content: "";
-            background-color: #fff; /* Alb */
+            background-color: #fff; 
             position: absolute;
             width: 20px;
             height: 3px;
@@ -118,7 +118,7 @@
 
         .burgerMenu::before {
             content: "";
-            background-color: #fff; /* Alb */
+            background-color: #fff; 
             position: absolute;
             width: 20px;
             height: 3px;
@@ -136,7 +136,7 @@
         top: (35px / 2);
         z-index: 0;
         width: calc(6rem + 15rem);
-        background-color: #ecf0f1; /* Albastru mai închis */
+        background-color: #ecf0f1; 
         height: 2px;
         transition: 0.5s all;
     }
@@ -180,15 +180,15 @@
         }
 
         li.active{
-            background-color: #dfe6e9; /* Albastru mai închis */
+            background-color: #dfe6e9; 
 
             a{
-                color: #275b8f; /* Albastru mai închis */
+                color: #275b8f; 
             }
         }
 
         li:hover {
-            background-color: #bdc3c7; /* Albastru mai închis */
+            background-color: #bdc3c7; 
             transition: 0.25s all;
         }
     }
@@ -207,7 +207,7 @@
     .burgerContainer.active {
         transition: 0.5s all;
         .burgerMenu {
-            background-color: #fff; /* Alb */
+            background-color: #fff; 
             transition: 0.5s all;
         }
 

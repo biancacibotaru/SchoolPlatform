@@ -123,7 +123,6 @@ namespace SchoolPlatformWebApplication.Repo
 
                     if (existingQuestion == null)
                     {
-                        // Insert new question
                         string insertQuestionQuery = @"
                     INSERT INTO [dbo].[Question] ([ExamId], [Text], [Points], [Answers])
                     VALUES (@ExamId, @Text, @Points, @Answers)";
@@ -143,7 +142,6 @@ namespace SchoolPlatformWebApplication.Repo
                     }
                     else
                     {
-                        // Update existing question
                         string updateQuestionQuery = @"
                     UPDATE [dbo].[Question]
                     SET 
@@ -306,7 +304,7 @@ namespace SchoolPlatformWebApplication.Repo
                 var parameters = new
                 {
                     QuestionId = questionId,
-                    ExamId= examId
+                    ExamId = examId
                 };
 
                 var response = await connection.QueryFirstOrDefaultAsync<Question>(query, parameters);
@@ -453,18 +451,6 @@ namespace SchoolPlatformWebApplication.Repo
                     var response = await connection.ExecuteScalarAsync<int>(query, parameters);
                 }
             }
-
-            //string queryUpdate = @"UPDATE [Exam] set [State] = @State where Id = @ExamId";
-            //using (var connection = this.context.CreateConnection())
-            //{
-            //    var parameters = new
-            //    {
-            //        ExamId = examId,
-            //        State = "published and noted"
-            //    };
-
-            //    var response = await connection.QueryFirstOrDefaultAsync<Exam>(queryUpdate, parameters);
-            //}
 
             return true;
         }
